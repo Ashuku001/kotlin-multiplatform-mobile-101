@@ -45,11 +45,13 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
     // later use version catalogue
-    implementation("io.github.raamcosta.compose-destinations:core:2.0.0")
-    ksp("io.github.raamcosta.compose-destinations:ksp:2.0.0")
+    implementation("io.github.raamcosta.compose-destinations:core:1.9.51")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.51")
+
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("io.insert:koin-androidx-compose:3.4.1")
-    implementation("androidx.datastore:datastore:1.1.3")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
-    implementation("com.google.accompanist:accompanist-systemuicontroler:0.28.8")
+//    implementation("androidx.datastore:datastore:1.1.3")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
