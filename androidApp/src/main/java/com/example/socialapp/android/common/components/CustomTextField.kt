@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.material3.TextField
+import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,7 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.socialapp.android.common.theming.Gray
 import com.example.socialapp.android.common.theming.SocialAppTheme
 import com.example.socialapp.android.R
+import com.example.socialapp.android.common.theming.Typography
+import com.example.socialapp.android.common.theming.TextFieldHeight
 
+// Standardize text input field
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
@@ -31,15 +37,16 @@ fun CustomTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     isPasswordTextField: Boolean = false,
     isSingleLine: Boolean = true,
-    @StringRes hint: Int
+    @StringRes hint: Int, // resource id
 ) {
+    // maintains an internal state to toggle password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.bodyMedium,
+        modifier = modifier.fillMaxWidth().height(TextFieldHeight),
+        textStyle = Typography.bodyMedium,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
         ),
@@ -53,9 +60,12 @@ fun CustomTextField(
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),
+        // display a passwordEyIcon
         trailingIcon = if (isPasswordTextField) {
             {
-                PasswordEyeIcon(isPasswordVisible = isPasswordVisible) {
+                PasswordEyeIcon(
+                        isPasswordVisible = isPasswordVisible,
+                    ) {
                     isPasswordVisible = !isPasswordVisible
                 }
             }
@@ -68,7 +78,7 @@ fun CustomTextField(
             VisualTransformation.None
         },
         placeholder = {
-            Text(text = stringResource(id = hint), style = MaterialTheme.typography.bodyMedium)
+            Text(text = stringResource(id = hint), style = Typography.bodyMedium)
         },
         shape = MaterialTheme.shapes.medium
     )
@@ -97,7 +107,7 @@ fun CustomTextFieldPreview() {
         CustomTextField(
             value = "",
             onValueChange = {},
-            hint = androidx.compose.ui.R.string.default_error_message
+            hint = R.string.email_hint
         )
     }
 }

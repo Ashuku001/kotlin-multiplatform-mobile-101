@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +28,8 @@ import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.theming.ButtonHeight
+import com.example.socialapp.android.common.theming.Gray
+import com.example.socialapp.android.common.theming.SmallSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
 
 @Composable
@@ -41,6 +44,7 @@ fun SignupScreen (
 {
     Column (
         modifier = modifier
+            .fillMaxSize()
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(
@@ -57,7 +61,7 @@ fun SignupScreen (
                 bottom = LargeSpacing
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(LargeSpacing)
+        verticalArrangement = Arrangement.spacedBy(LargeSpacing, Alignment.CenterVertically)
         ) {
         CustomTextField(
             value = uiState.username,
@@ -91,6 +95,41 @@ fun SignupScreen (
             shape = MaterialTheme.shapes.medium
         ) {
             Text(text = stringResource(id = R.string.signup_button_hint))
+        }
+
+        Column (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(SmallSpacing)
+        ) {
+            Text(text = "Already have an Account")
+
+            Button (
+                onClick = {
+                    onNavigateToLogin()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isSystemInDarkTheme()) {
+                        MaterialTheme.colorScheme.surface
+                    } else {
+                        Gray
+                    },
+                    contentColor = if (isSystemInDarkTheme()) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        Color.Black
+                    }
+                ),
+                modifier = modifier
+                    .height(ButtonHeight)
+                    .fillMaxWidth(),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 0.dp
+                ),
+                shape = MaterialTheme.shapes.medium,
+            ) {
+                Text(text = "Login")
+            }
         }
     }
 }

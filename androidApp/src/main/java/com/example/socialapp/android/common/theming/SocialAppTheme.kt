@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
+// wrap UI components in to MaterialTheme
 @Composable
 fun SocialAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

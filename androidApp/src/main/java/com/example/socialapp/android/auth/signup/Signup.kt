@@ -6,6 +6,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
+// NavHost determines this is the start destination
 @Destination(start = true)
 @Composable
 fun signup(

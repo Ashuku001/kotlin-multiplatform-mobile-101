@@ -6,18 +6,24 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
-@Destination
+// a bridge between dependency injection (providing the viewModel referenced by koinViewModel) and
+// the UI to render the state of our viewModel
+// ensure login screen receives its state and behavior from the view model (state manager) keeping
+// UI reactive and modular i.e., UI and State are managed separately and connected via koinViewModel()
+@Destination  // login annotated as a navigation destination will be called via DestinationsNavigator
 @Composable
 fun login(
     navigator: DestinationsNavigator
 ) {
-    val viewModel: LoginViewModal = koinViewModel()
+    // inject login view model
+    val viewModel: LoginViewModel = koinViewModel() // returns an Instance of LoginViewModel as referenced in app module dependency injection
+    // call the screen with current ui state and callbacks to update the state and navigate to signup
     LoginScreen(
-        uiState =  viewModel.uiState,
-        onEmailChange = viewModel::updateEmail,
+        uiState =  viewModel.uiState, // current ui state from the viewModel i.e., email and password
+        onEmailChange = viewModel::updateEmail, // updating the current state of the viewmodel
         onPasswordChange = viewModel::updatePassword,
         onNavigateToSignup = {
-            navigator.navigate(signupDestination)
+            navigator.navigate(signupDestination) // a lambda for navigation
         }
     )
 }

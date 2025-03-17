@@ -12,3 +12,4 @@ val MediumElevation = 4.dp
 
 
 val ButtonHeight = 52.dp
+val TextFieldHeight = 52.dp
