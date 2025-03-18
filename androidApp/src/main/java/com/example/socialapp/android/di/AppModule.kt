@@ -7,6 +7,6 @@ import org.koin.dsl.module
 
 // dependency injection using Koin
 val appModule = module {
-    viewModel {LoginViewModel()} // register LoginViewModel on calling koinViewModel() in a composable we receive an instance of LoginViewModel
-    viewModel {SignupViewModel()}
+    viewModel {LoginViewModel(get())} // register LoginViewModel on calling koinViewModel() in a composable we receive an instance of LoginViewModel
+    viewModel {SignupViewModel(get())}
 }

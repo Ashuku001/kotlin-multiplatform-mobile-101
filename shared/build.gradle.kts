@@ -8,8 +8,10 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
+    google()
+    mavenCentral() // Required for Koin
 }
+
 
 val coroutinesVersion = "1.6.4"
 val koinVersion = "3.3.2"
@@ -20,7 +22,7 @@ kotlin {
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
+                    jvmTarget.set(JvmTarget.JVM_11)
                 }
             }
         }
@@ -52,7 +54,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            api("io.insert-koin-android:$koinVersion")
+            api("io.insert-koin:koin-android:$koinVersion")
             implementation("io.ktor:ktor-client-android:$ktorVersion")
         }
 
@@ -60,6 +62,7 @@ kotlin {
             implementation("io.ktor:ktor-client-darwin:$ktorVersion")
         }
     }
+//    jvmToolchain("1.8")
 }
 
 android {
@@ -69,8 +72,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 }
