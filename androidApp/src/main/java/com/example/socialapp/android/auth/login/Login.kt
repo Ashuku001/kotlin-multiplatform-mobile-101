@@ -25,13 +25,13 @@ fun login(
         onEmailChange = viewModel::updateEmail, // updating the current state of the viewmodel
         onPasswordChange = viewModel::updatePassword,
         onNavigateToSignup = {
-            navigator.navigate(signupDestination){
-                // remove destination from the backstrck
+            navigator.navigate(signupDestination) {
                 popUpTo(loginDestination.route) {
                     inclusive = true
                 }
-            }
+            }// a lambda for navigation
         },
+        onSignInClick = viewModel::signIn,
         onSignInClick = viewModel::signIn,
         onNavigateToHome = {
             navigator.navigate(homeScreenDestination){

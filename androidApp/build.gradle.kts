@@ -29,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.animation)
     // later use version catalogue
     implementation("io.github.raamcosta.compose-destinations:core:1.9.51")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.51")
