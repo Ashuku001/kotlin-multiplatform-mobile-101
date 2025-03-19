@@ -1,7 +1,9 @@
 package com.example.socialapp.android.auth.login
 
 import androidx.compose.runtime.Composable
-import com.example.socialapp.android.auth.destinations.signupDestination
+import com.example.socialapp.android.destinations.homeScreenDestination
+import com.example.socialapp.android.destinations.loginDestination
+import com.example.socialapp.android.destinations.signupDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
@@ -23,7 +25,20 @@ fun login(
         onEmailChange = viewModel::updateEmail, // updating the current state of the viewmodel
         onPasswordChange = viewModel::updatePassword,
         onNavigateToSignup = {
-            navigator.navigate(signupDestination) // a lambda for navigation
+            navigator.navigate(signupDestination){
+                // remove destination from the backstrck
+                popUpTo(loginDestination.route) {
+                    inclusive = true
+                }
+            }
+        },
+        onSignInClick = viewModel::signIn,
+        onNavigateToHome = {
+            navigator.navigate(homeScreenDestination){
+                popUpTo(loginDestination.route) {
+                    inclusive = true
+                }
+            }
         }
     )
 }
