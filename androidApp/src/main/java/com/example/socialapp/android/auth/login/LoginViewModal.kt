@@ -1,8 +1,11 @@
 package com.example.socialapp.android.auth.login
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.socialapp.android.common.datastore.UserSettings
+import com.example.socialapp.android.common.datastore.toUserSettings
 import com.example.socialapp.auth.domain.usecase.SignInUseCase
 import com.example.socialapp.common.util.Result
 import kotlinx.coroutines.launch
@@ -17,7 +20,10 @@ data class LoginUiState(
 )
 
 // manage the login screen UI sate
-class LoginViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
+class LoginViewModel(
+    private val signInUseCase: SignInUseCase,
+    private val dataStore: DataStore<UserSettings>
+): ViewModel() {
     // a mutable state of the data class holding email and password so any change trigger recomposition in the UI
     private val _uiState: MutableState<LoginUiState> = mutableStateOf(LoginUiState())
     val uiState: LoginUiState get() = _uiState.value
@@ -46,6 +52,9 @@ class LoginViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
                     )
                 }
                 is Result.Success<*> -> {
+                    dataStore.updateData {
+                        authResultData.data!!.toUserSettings() // map autheresultdata to user settings
+                    }
                     uiState.copy(
                         isAuthenticating = false,
                         authenticationSucceed = true

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
     id("com.google.devtools.ksp") version "2.0.0-1.0.22"
 }
 
@@ -52,7 +53,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
-//    implementation("androidx.datastore:datastore:1.1.3")
+    implementation("androidx.datastore:datastore:1.0.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
     implementation("io.coil-kt:coil-compose:2.4.0")
 }
