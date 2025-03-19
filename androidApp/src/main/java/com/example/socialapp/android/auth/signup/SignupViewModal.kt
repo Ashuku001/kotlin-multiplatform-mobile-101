@@ -42,13 +42,13 @@ class SignupViewModel (
 
             _uiState.value = when(authResultData){
                 is Result.Error -> {
-                    uiState.copy(
+                    _uiState.value.copy(
                         isAuthenticating =  false,
                         authErrorMessage = authResultData.message
                     )
                 }
                 is Result.Success<*> -> {
-                    uiState.copy(
+                    _uiState.value.copy(
                         isAuthenticating = false,
                         authenticationSucceed = true
                     )

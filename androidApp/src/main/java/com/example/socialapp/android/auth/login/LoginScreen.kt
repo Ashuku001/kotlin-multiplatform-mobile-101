@@ -35,7 +35,6 @@ import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.theming.ButtonHeight
-import com.example.socialapp.android.common.theming.Gray
 import com.example.socialapp.android.common.theming.SmallSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
 
@@ -80,7 +79,7 @@ fun LoginScreen (
             CustomTextField(
                 value = uiState.email,
                 onValueChange = onEmailChange,
-                hint = R.string.username_hint,
+                hint = R.string.email_hint,
                 keyboardType = KeyboardType.Email,
             )
             CustomTextField(
