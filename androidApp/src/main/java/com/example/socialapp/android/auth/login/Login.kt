@@ -32,7 +32,6 @@ fun login(
             }// a lambda for navigation
         },
         onSignInClick = viewModel::signIn,
-        onSignInClick = viewModel::signIn,
         onNavigateToHome = {
             navigator.navigate(homeScreenDestination){
                 popUpTo(loginDestination.route) {
