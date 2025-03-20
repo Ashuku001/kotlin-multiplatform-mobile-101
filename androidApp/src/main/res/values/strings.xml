@@ -38,4 +38,6 @@
     <string name="create_post_destination_title">New post</string>
     <string name="create_post_button_label">Create post</string>
     <string name="select_post_image_label">Post image:</string>
+    <string name="onboarding_description">Post from people you follow will appear here, Here are some suggested people you can follow.</string>
+    <string name="onboarding_don_button">Done</string>
 </resources>

@@ -49,11 +49,11 @@ dependencies {
     // later use version catalogue
     implementation("io.github.raamcosta.compose-destinations:core:1.9.51")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.51")
-
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.datastore:datastore:1.0.0")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0") // load images
 }

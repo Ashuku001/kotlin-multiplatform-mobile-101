@@ -1,7 +1,7 @@
 package com.example.socialapp.android.auth.login
 
 import androidx.compose.runtime.Composable
-import com.example.socialapp.android.destinations.homeScreenDestination
+import com.example.socialapp.android.destinations.HomeDestination
 import com.example.socialapp.android.destinations.loginDestination
 import com.example.socialapp.android.destinations.signupDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -33,7 +33,7 @@ fun login(
         },
         onSignInClick = viewModel::signIn,
         onNavigateToHome = {
-            navigator.navigate(homeScreenDestination){
+            navigator.navigate(HomeDestination){
                 popUpTo(loginDestination.route) {
                     inclusive = true
                 }
