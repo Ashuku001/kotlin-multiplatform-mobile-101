@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.socialapp.android.common.theming.SmallElevation
-import com.example.socialapp.android.destinations.homeScreenDestination
+import com.example.socialapp.android.destinations.HomeDestination
 import com.example.socialapp.android.destinations.loginDestination
 import com.example.socialapp.android.destinations.signupDestination
 import com.ramcosta.composedestinations.utils.currentDestinationAsState
@@ -39,7 +39,7 @@ fun AppBar(
             modifier = modifier,
 //            colors = MaterialTheme.colorScheme.surface,
             actions = {
-                AnimatedVisibility(visible =  currentDestination?.route == homeScreenDestination.route) {
+                AnimatedVisibility(visible =  currentDestination?.route == HomeDestination.route) {
                     Icon (
                         painter = painterResource(id = R.drawable.person_circle_icon),
                         contentDescription = null
@@ -68,7 +68,7 @@ private fun getAppBarTitle(currentDestinationRoute: String?): Int {
     return when(currentDestinationRoute){
         loginDestination.route -> R.string.login_destination_title
         signupDestination.route -> R.string.signup_destination_title
-        homeScreenDestination.route -> R.string.home_destination_title
+        HomeDestination.route -> R.string.home_destination_title
         else -> R.string.no_destination_title
     }
 }

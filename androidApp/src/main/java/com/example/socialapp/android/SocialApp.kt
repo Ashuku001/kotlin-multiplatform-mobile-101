@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.socialapp.android.common.components.AppBar
-import com.example.socialapp.android.destinations.homeScreenDestination
+import com.example.socialapp.android.destinations.HomeDestination
 import com.example.socialapp.android.destinations.loginDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -54,9 +54,9 @@ fun SocialApp(
     LaunchedEffect(key1 = token, block = {
         // navigate to auth if there is no user token
         if (token != null && token.isEmpty()) {
-            navHostController.navigate(loginDestination.route) {
+            navHostController.navigate(HomeDestination.route) {
                 // pop the backstack
-                popUpTo(homeScreenDestination.route) {
+                popUpTo(HomeDestination.route) {
                     inclusive = true
                 }
             }
