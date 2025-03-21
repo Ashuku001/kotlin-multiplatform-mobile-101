@@ -3,6 +3,7 @@ package com.example.socialapp.android.home
 import androidx.compose.runtime.Composable
 import com.example.socialapp.android.common.fakedata.Post
 import com.example.socialapp.android.destinations.PostDetailDestination
+import com.example.socialapp.android.destinations.ProfileDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
@@ -18,9 +19,9 @@ fun Home (
         onBoardingUiState = viewModel.onBoardingUiState,
         postUiState = viewModel.postUiState,
         onPostClick = {
-            navigator.navigate(PostDetailDestination(it.id))
+           navigator.navigate(PostDetailDestination(it.id))
         },
-        onProfileClick = {},
+        onProfileClick = {userId -> navigator.navigate(ProfileDestination(userId))},
         onLikeClick = { },
         onCommentClick = { },
         isDetailScreen = false,
