@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.socialapp.android.common.components.AppBar
 import com.example.socialapp.android.destinations.HomeDestination
-import com.example.socialapp.android.destinations.loginDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 

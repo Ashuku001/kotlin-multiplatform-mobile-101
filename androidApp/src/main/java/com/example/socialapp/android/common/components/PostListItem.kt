@@ -45,8 +45,8 @@ fun PostListItem (
     post: Post,
     onPostClick: (Post) -> Unit,
     onProfileClick: (Int) -> Unit,
-    onLikeClick: () -> Unit,
-    onCommentClick: () -> Unit,
+    onLikeClick: (String) -> Unit,
+    onCommentClick: (String) -> Unit,
     isDetailScreen: Boolean = false
 ) {
     Column (
@@ -80,11 +80,11 @@ fun PostListItem (
         )
 
         PostFooter(
+            postId = post.id,
             likesCount = post.likesCount,
             commentCount = post.commentCount,
             onLikeClick = onLikeClick,
             onCommentClick = onCommentClick,
-
         )
 
         Text(
@@ -172,11 +172,12 @@ fun PostHeader (
 @Composable
 fun PostFooter (
     modifier: Modifier = Modifier,
+    postId: String,
     likesCount: Int,
     commentCount: Int,
     isPostLiked: Boolean = false,
-    onLikeClick: () -> Unit,
-    onCommentClick: () -> Unit,
+    onLikeClick: (String) -> Unit,
+    onCommentClick: (String) -> Unit,
 ) {
     Row (
         modifier = modifier
@@ -188,7 +189,7 @@ fun PostFooter (
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            onClick = onLikeClick
+            onClick = { onLikeClick(postId) }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.like_icon_outlined),
@@ -208,7 +209,7 @@ fun PostFooter (
         ))
 
         IconButton(
-            onClick = onCommentClick
+            onClick = { onCommentClick(postId) }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.chat_icon_outlined),
@@ -270,10 +271,11 @@ private fun PostLikesRowPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostFooter (
+                postId = "",
                 likesCount = 12,
                 commentCount = 2,
-                onLikeClick = {},
                 isPostLiked = true,
+                onLikeClick = {},
                 onCommentClick = {}
             )
         }
