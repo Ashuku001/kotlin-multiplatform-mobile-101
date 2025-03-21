@@ -36,6 +36,7 @@ import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.fakedata.Post
 import com.example.socialapp.android.common.fakedata.samplePosts
+import com.example.socialapp.android.common.theming.ExtraLargeSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
 
 @Composable
@@ -51,11 +52,11 @@ fun PostListItem (
     Column (
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(ratio = 0.7f)
             .background(
                 color = MaterialTheme.colorScheme.surface
             )
             .clickable { onPostClick(post) }
+            .padding(bottom = ExtraLargeSpacing)
     ) {
         PostHeader(
             name = post.authorName,

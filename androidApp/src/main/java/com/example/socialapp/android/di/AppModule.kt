@@ -7,6 +7,7 @@ import com.example.socialapp.android.auth.login.LoginViewModel
 import com.example.socialapp.android.auth.signup.SignupViewModel
 import com.example.socialapp.android.common.datastore.UserSettingsSerializer
 import com.example.socialapp.android.home.HomeScreenViewModel
+import com.example.socialapp.android.post.PostDetailScreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -17,6 +18,7 @@ val appModule = module {
     viewModel {SignupViewModel(get(), get())}
     viewModel {MainActivityViewModel(get())}
     viewModel {HomeScreenViewModel()}
+    viewModel {PostDetailScreenViewModel()}
 
     // create a single instance of datastore whenever needed
     single {

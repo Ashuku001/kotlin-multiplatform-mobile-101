@@ -42,11 +42,11 @@ class LoginViewModel(
         viewModelScope.launch {
             _uiState.value = uiState.copy(isAuthenticating = true)
 
-            val authResultData = signInUseCase( uiState.email,  uiState.password)
+            val authResultData = signInUseCase( _uiState.value.email,  _uiState.value.password)
 
             _uiState.value = when(authResultData){
                 is Result.Error -> {
-                    uiState.copy(
+                    _uiState.value.copy(
                         isAuthenticating =  false,
                         authErrorMessage = authResultData.message
                     )
@@ -55,7 +55,7 @@ class LoginViewModel(
                     dataStore.updateData {
                         authResultData.data!!.toUserSettings() // map autheresultdata to user settings
                     }
-                    uiState.copy(
+                    _uiState.value.copy(
                         isAuthenticating = false,
                         authenticationSucceed = true
                     )

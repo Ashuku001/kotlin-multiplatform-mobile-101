@@ -42,7 +42,7 @@ class SignupViewModel (
         viewModelScope.launch {
             _uiState.value = uiState.copy(isAuthenticating = true)
 
-            val authResultData = signUpUseCase( uiState.email,  uiState.username, uiState.password)
+            val authResultData = signUpUseCase( _uiState.value.email,  _uiState.value.username, _uiState.value.password)
 
             _uiState.value = when(authResultData){
                 is Result.Error -> {

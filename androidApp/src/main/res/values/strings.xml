@@ -40,4 +40,6 @@
     <string name="select_post_image_label">Post image:</string>
     <string name="onboarding_description">Post from people you follow will appear here, Here are some suggested people you can follow.</string>
     <string name="onboarding_don_button">Done</string>
+    <string name="new_comment_button_label">Add Comment</string>
+    <string name="loading_post_error">Error Loading post</string>
 </resources>

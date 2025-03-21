@@ -9,12 +9,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionErrors
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.socialapp.android.common.theming.SmallElevation
 import com.example.socialapp.android.destinations.HomeDestination
+import com.example.socialapp.android.destinations.PostDetailDestination
 import com.example.socialapp.android.destinations.loginDestination
 import com.example.socialapp.android.destinations.signupDestination
 import com.ramcosta.composedestinations.utils.currentDestinationAsState
@@ -49,7 +51,7 @@ fun AppBar(
             navigationIcon = if (shouldShowNavigationIcon(currentDestination?.route)) {
                 {
                     IconButton (
-                        onClick = {}
+                        onClick = {navHostController.navigateUp()}
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.round_arrow_back),
@@ -69,10 +71,11 @@ private fun getAppBarTitle(currentDestinationRoute: String?): Int {
         loginDestination.route -> R.string.login_destination_title
         signupDestination.route -> R.string.signup_destination_title
         HomeDestination.route -> R.string.home_destination_title
+        PostDetailDestination.route -> R.string.post_detail_destination_title
         else -> R.string.no_destination_title
     }
 }
 
 private fun shouldShowNavigationIcon(currentDestinationRoute: String?): Boolean {
-    return false
+    return !(currentDestinationRoute == loginDestination.route || currentDestinationRoute == signupDestination.route || currentDestinationRoute == HomeDestination.route )
 }

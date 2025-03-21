@@ -59,8 +59,6 @@ fun HomeScreen(
                 }
             }
 
-            println(">>>>>>>>>>>>>${postUiState.posts}")
-
             items(items = postUiState.posts, key = {post -> post.id}) {
                 PostListItem(
                     post = it,
