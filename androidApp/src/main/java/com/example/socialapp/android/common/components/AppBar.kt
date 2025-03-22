@@ -15,6 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.socialapp.android.common.theming.SmallElevation
+import com.example.socialapp.android.destinations.EditProfileDestination
+import com.example.socialapp.android.destinations.FollowersDestination
+import com.example.socialapp.android.destinations.FollowingDestination
 import com.example.socialapp.android.destinations.HomeDestination
 import com.example.socialapp.android.destinations.PostDetailDestination
 import com.example.socialapp.android.destinations.ProfileDestination
@@ -74,6 +77,9 @@ private fun getAppBarTitle(currentDestinationRoute: String?): Int {
         HomeDestination.route -> R.string.home_destination_title
         PostDetailDestination.route -> R.string.post_detail_destination_title
         ProfileDestination.route -> R.string.profile_destination_title
+        EditProfileDestination.route -> R.string.edit_profile_destination_title
+        FollowingDestination.route -> R.string.following_text
+        FollowersDestination.route -> R.string.followers_text
         else -> R.string.no_destination_title
     }
 }
