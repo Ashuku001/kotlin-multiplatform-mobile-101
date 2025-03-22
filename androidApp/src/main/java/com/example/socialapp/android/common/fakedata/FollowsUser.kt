@@ -4,6 +4,7 @@ package com.example.socialapp.android.common.fakedata
 data class FollowsUser(
     val id: Int,
     val name: String,
+    val bio: String = "Hey there, welcome to my profile",
     val profileUrl: String,
     val isFollowing: Boolean = false
 )
@@ -11,9 +12,8 @@ data class FollowsUser(
 val sampleUsers = listOf(
     FollowsUser(
         id = 1,
-        name = "Mr Dip",
-        profileUrl = "https://picsum.photos/200",
-        isFollowing = true
+        name = "Mr Ezra",
+        profileUrl = "https://picsum.photos/200"
     ),
     FollowsUser(
         id = 2,

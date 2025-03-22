@@ -23,7 +23,7 @@ val samplePosts = listOf(
         likesCount = 12,
         commentCount = 3,
         authorId = 1,
-        authorName = "Mr Dip",
+        authorName = "Mr Ezra",
         authorImage = "https://picsum.photos/200"
     ),
     Post(

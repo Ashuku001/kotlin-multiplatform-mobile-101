@@ -3,6 +3,8 @@ package com.example.socialapp.android.di
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.example.socialapp.android.MainActivityViewModel
+import com.example.socialapp.android.account.edit.EditProfileViewModel
+import com.example.socialapp.android.account.follows.FollowsViewModel
 import com.example.socialapp.android.account.profile.ProfileViewModel
 import com.example.socialapp.android.auth.login.LoginViewModel
 import com.example.socialapp.android.auth.signup.SignupViewModel
@@ -21,6 +23,8 @@ val appModule = module {
     viewModel {HomeScreenViewModel()}
     viewModel {PostDetailScreenViewModel()}
     viewModel {ProfileViewModel()}
+    viewModel {EditProfileViewModel()}
+    viewModel {FollowsViewModel()}
 
     // create a single instance of datastore whenever needed
     single {

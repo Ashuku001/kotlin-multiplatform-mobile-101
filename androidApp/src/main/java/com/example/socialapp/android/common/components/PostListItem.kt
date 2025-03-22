@@ -254,7 +254,7 @@ private fun PostHeaderPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostHeader(
-                name = "Mr Dip",
+                name = "Mr Ezra",
                 profileUrl = "",
                 date = "20 min",
                 onProfileClick = {}
