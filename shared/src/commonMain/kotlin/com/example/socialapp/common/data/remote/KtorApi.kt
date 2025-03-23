@@ -3,8 +3,10 @@ package com.example.socialapp.common.data.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.headersOf
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
@@ -25,12 +27,19 @@ internal abstract class KtorApi {
         }
     }
 
-    // an extenstion to RequestBuilder called endpoint
+    // an extension to RequestBuilder called endpoint
     fun HttpRequestBuilder.endpoint(path: String) {
         url {
             takeFrom(BASE_URL)
             path(path)
             contentType(ContentType.Application.Json)
+        }
+    }
+
+    // an extention to add tokens to the request headers
+    fun HttpRequestBuilder.setToken(token: String) {
+        headers{
+            append(name = "Authorization", value = "Bearer $token")
         }
     }
 }
