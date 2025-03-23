@@ -50,6 +50,7 @@ kotlin {
             api("io.insert-koin:koin-core:$koinVersion")
 
             implementation("androidx.datastore:datastore-preferences-core:$dataStoreVersion")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC.2")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
