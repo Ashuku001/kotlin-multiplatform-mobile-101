@@ -6,7 +6,6 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.http.headersOf
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
