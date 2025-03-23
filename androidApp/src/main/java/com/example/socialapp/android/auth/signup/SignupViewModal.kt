@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.socialapp.android.common.datastore.UserSettings
-import com.example.socialapp.android.common.datastore.toUserSettings
+import com.example.socialapp.common.data.local.UserSettings
+import com.example.socialapp.common.data.local.toUserSettings
 import com.example.socialapp.auth.domain.usecase.SignUpUseCase
 import com.example.socialapp.common.util.Result
 import kotlinx.coroutines.launch
@@ -52,11 +52,11 @@ class SignupViewModel (
                     )
                 }
                 is Result.Success<*> -> {
-                    // updates user token
-                    dataStore.updateData {
-                        // force unwrap !! we are sure data will never be null
-                        authResultData.data!!.toUserSettings()
-                    }
+                    // moved to shared module
+//                    dataStore.updateData {
+//                        // force unwrap !! we are sure data will never be null
+//                        authResultData.data!!.toUserSettings()
+//                    }
                     _uiState.value.copy(
                         isAuthenticating = false,
                         authenticationSucceed = true

@@ -16,6 +16,7 @@ repositories {
 val coroutinesVersion = "1.6.4"
 val koinVersion = "3.3.2"
 val ktorVersion = "2.2.1"
+val dataStoreVersion = "1.1.3"
 
 kotlin {
     androidTarget {
@@ -27,7 +28,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -47,6 +48,8 @@ kotlin {
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             api("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             api("io.insert-koin:koin-core:$koinVersion")
+
+            implementation("androidx.datastore:datastore-preferences-core:$dataStoreVersion")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -55,10 +58,13 @@ kotlin {
         androidMain.dependencies {
             api("io.insert-koin:koin-android:$koinVersion")
             implementation("io.ktor:ktor-client-android:$ktorVersion")
+            api("androidx.datastore:datastore-preferences:$dataStoreVersion")
+
         }
 
         iosMain.dependencies {
             implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+            implementation("com.squareup.okio:okio:3.0.0")
         }
     }
 //    jvmToolchain("1.8")

@@ -1,11 +1,11 @@
-package com.example.socialapp.android.common.datastore
+package com.example.socialapp.common.data.local
 
 import com.example.socialapp.auth.domain.model.AuthResultData
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserSettings (
-    val id: Int = -1,
+    val id: Long = -1,
     val name: String = "",
     val email: String = "",
     val bio: String = "",

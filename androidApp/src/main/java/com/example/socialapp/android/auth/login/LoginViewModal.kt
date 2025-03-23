@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.socialapp.android.common.datastore.UserSettings
-import com.example.socialapp.android.common.datastore.toUserSettings
+import com.example.socialapp.common.data.local.UserSettings
+import com.example.socialapp.common.data.local.toUserSettings
 import com.example.socialapp.auth.domain.usecase.SignInUseCase
 import com.example.socialapp.common.util.Result
 import kotlinx.coroutines.launch
@@ -52,9 +52,10 @@ class LoginViewModel(
                     )
                 }
                 is Result.Success<*> -> {
-                    dataStore.updateData {
-                        authResultData.data!!.toUserSettings() // map autheresultdata to user settings
-                    }
+                    // moved to the shared module
+//                    dataStore.updateData {
+//                        authResultData.data!!.toUserSettings() // map autheresultdata to user settings
+//                    }
                     _uiState.value.copy(
                         isAuthenticating = false,
                         authenticationSucceed = true
