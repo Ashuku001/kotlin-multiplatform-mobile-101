@@ -2,7 +2,7 @@ package com.example.socialapp.auth.domain.model
 
 // a data class to map JSON results to a data class
 data class AuthResultData (
-    val id: Int,
+    val id: Long,
     val name: String,
     val email: String,
     val bio: String,

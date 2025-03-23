@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 private val authModule = module{
     // 2 gets for dispather and authservice modules
-    single<AuthRepository> {AuthRepositoryImpl(get(), get())} // a single instance of auth repo
+    single<AuthRepository> {AuthRepositoryImpl(get(), get(), get())} // a single instance of auth repo
     factory  {AuthService()} // construct an instance each time it is needed
     factory {SignUpUseCase()}
     factory {SignInUseCase()}
@@ -21,4 +21,4 @@ private val utilityModule = module {
 }
 
 
-fun getSharedModules() = listOf(authModule, utilityModule)
+fun getSharedModules() = listOf(platformModule, authModule, utilityModule)

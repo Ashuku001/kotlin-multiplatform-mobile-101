@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.socialapp.android.common.components.AppBar
 import com.example.socialapp.android.destinations.HomeDestination
+import com.example.socialapp.android.destinations.loginDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 
@@ -22,11 +23,11 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SocialApp(
-    token: String?
+    uiState: MainActivityUiState
 ) {
     val navHostController = rememberNavController() // navigation controller
     val snackbarHostState = remember { SnackbarHostState() }
-    val systemUiControler = rememberSystemUiController()
+    val systemUiController = rememberSystemUiController()
 
     val isSystemInDark = isSystemInDarkTheme()
     val statusBarColor = if (isSystemInDark) {
@@ -35,7 +36,7 @@ fun SocialApp(
         MaterialTheme.colorScheme.primary
     }
     SideEffect {
-        systemUiControler.setStatusBarColor(color = statusBarColor, darkIcons =  !isSystemInDark)
+        systemUiController.setStatusBarColor(color = statusBarColor, darkIcons =  !isSystemInDark)
     }
 
     Scaffold (
@@ -50,18 +51,19 @@ fun SocialApp(
     ) }
 
     // when
-    LaunchedEffect(key1 = token, block = {
-        // navigate to auth if there is no user token
-        if (token != null && token.isEmpty()) {
-            navHostController.navigate(HomeDestination.route) {
-                // pop the backstack
-                popUpTo(HomeDestination.route) {
-                    inclusive = true
+    when(uiState){
+        MainActivityUiState.Loading -> {} // don't do anything if loading
+        is MainActivityUiState.Success -> {
+            LaunchedEffect(key1 = Unit) { // react
+                if(uiState.currentUser.token.isEmpty()) { // by checking if there is a token
+                    navHostController.navigate(loginDestination.route) {
+                        popUpTo(HomeDestination.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
-    })
-
-    // pass control that determines which screen to display i.e., composable with @Destination decorator
+    }
 
 }
