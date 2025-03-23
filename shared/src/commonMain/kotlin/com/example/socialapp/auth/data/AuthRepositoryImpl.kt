@@ -42,7 +42,6 @@ internal class AuthRepositoryImpl(
                     )
                 }
             } catch(e: Exception) {
-                println("EXCEPTION $e")
                 Result.Error(
                     message = "Oops, we could not send your request. Try later"
                 )
@@ -53,14 +52,9 @@ internal class AuthRepositoryImpl(
     override suspend fun signIn(email: String, password: String): Result<AuthResultData> {
         return withContext(dispatcher.io){
             try {
-                println(">>>>>>>>> $email , $password")
                 val request = SignInRequest( email, password)
 
-                println(">>>request>>>>>> $request")
-
                 val authResponse = authService.signIn(request)
-
-                println("response $authResponse")
 
                 if (authResponse.data == null) {
                     Result.Error(
@@ -76,7 +70,6 @@ internal class AuthRepositoryImpl(
                     )
                 }
             } catch(e: Exception) {
-                println("EXCEPTION $e")
                 Result.Error(
                     message = "Oops, we could not send your request. Try later"
                 )
