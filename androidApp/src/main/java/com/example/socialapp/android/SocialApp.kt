@@ -44,12 +44,13 @@ fun SocialApp(
         topBar = {
             AppBar(navHostController = navHostController)
         }
-        ) { innerPaddings ->  DestinationsNavHost(
-        modifier = Modifier.padding(innerPaddings),
-        navGraph = NavGraphs.root,
-        navController = navHostController
-    ) }
-
+    ){ innerPaddings ->
+        DestinationsNavHost(
+            modifier = Modifier.padding(innerPaddings),
+            navGraph = NavGraphs.root,
+            navController = navHostController
+        )
+    }
     // when
     when(uiState){
         MainActivityUiState.Loading -> {} // don't do anything if loading

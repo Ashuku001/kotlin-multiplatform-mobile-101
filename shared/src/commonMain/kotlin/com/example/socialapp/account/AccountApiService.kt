@@ -19,6 +19,8 @@ internal class AccountApiService: KtorApi() {
             setToken(token = token)
         }
 
+        println("HTTP STATUS CODE $httpResponse")
+
         return ProfileApiResponse(code = httpResponse.status, data = httpResponse.body())
     }
 }

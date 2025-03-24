@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.socialapp.android.common.util.Constants
 import com.example.socialapp.android.common.util.DefaultPagingManager
+import com.example.socialapp.android.common.util.Event
+import com.example.socialapp.android.common.util.EventBus
 import com.example.socialapp.android.common.util.PagingManager
 import kotlinx.coroutines.launch
 import com.example.socialapp.common.domain.model.FollowsUser
@@ -17,6 +19,8 @@ import com.example.socialapp.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.socialapp.post.domain.usecase.GetPostsUseCase
 import com.example.socialapp.post.domain.usecase.LikeOrUnlikePostUseCase
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 class HomeScreenViewModel (
@@ -38,6 +42,13 @@ class HomeScreenViewModel (
 
     init {
         fetchData()
+
+        // listen to updates of posts and update the home screen state
+        EventBus.events.onEach {
+            when (it) {
+                is Event.PostUpdated -> updatePost(it.post)
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun fetchData(){
@@ -190,17 +201,21 @@ class HomeScreenViewModel (
 
             when (result) {
                 is Result.Error -> {
-                    _postFeedUiState.value = _postFeedUiState.value.copy(
-                        posts = _postFeedUiState.value.posts.map {
-                            if(it.postId == post.postId) post else it
-
-                        }
-                    )
+                    updatePost(post)
                 }
                 is Result.Success -> Unit
             }
 
         }
+    }
+
+    private fun updatePost(post: Post) {
+        _postFeedUiState.value = _postFeedUiState.value.copy(
+            posts = _postFeedUiState.value.posts.map {
+                if(it.postId == post.postId) post else it
+
+            }
+        )
     }
 
     fun onUiAction(uiAction: HomeUiAction) {

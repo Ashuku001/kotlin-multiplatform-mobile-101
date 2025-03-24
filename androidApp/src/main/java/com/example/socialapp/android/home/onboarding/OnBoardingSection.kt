@@ -77,6 +77,13 @@ fun OnBoardingSection(
             Text(text = stringResource(id = R.string.onboarding_don_button))
         }
 
+        Text(
+            text = "Trending Posts",
+            modifier = modifier.fillMaxWidth().padding(vertical = LargeSpacing)
+                .align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.titleLarge,
+        )
+
     }
 }
 

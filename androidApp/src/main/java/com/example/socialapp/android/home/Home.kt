@@ -1,7 +1,6 @@
 package com.example.socialapp.android.home
 
 import androidx.compose.runtime.Composable
-import com.example.socialapp.android.common.fakedata.Profile
 import com.example.socialapp.android.destinations.PostDetailDestination
 import com.example.socialapp.android.destinations.ProfileDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -20,8 +19,8 @@ fun Home (
         postFeedUiState = viewModel.postFeedUiState,
         homeRefreshState = viewModel.homeRefreshState,
         onUiAction = {viewModel.onUiAction(it)}, // the it is automatically generated
-        onProfileNavigation = {navigator.navigate(ProfileDestination.route)},
-        onPostDetailNavigation = {navigator.navigate(PostDetailDestination.route)},
+        onProfileNavigation = {userId -> navigator.navigate(ProfileDestination(userId))},
+        onPostDetailNavigation = {post -> navigator.navigate(PostDetailDestination(post.postId))},
     )
 
 }
