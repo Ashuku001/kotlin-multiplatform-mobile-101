@@ -1,6 +1,6 @@
 package com.example.socialapp.common.domain.model
 
-class FollowsUser (
+data class FollowsUser (
     val id: Long,
     val name: String,
     val bio: String,

@@ -45,6 +45,8 @@ internal class FollowsApiService: KtorApi() {
             setToken(userToken)
         }
 
+        println("HTTP RESPONSE $httpResponse")
+
         return FollowsApiResponse(code = httpResponse.status, data = httpResponse.body())
     }
 

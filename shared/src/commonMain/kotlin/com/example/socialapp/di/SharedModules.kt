@@ -49,4 +49,4 @@ private val followsModule = module {
 }
 
 // inject to koin
-fun getSharedModules() = listOf(platformModule, authModule, utilityModule + postModule + followsModule)
+fun getSharedModules() = listOf(platformModule, authModule, utilityModule, postModule, followsModule)

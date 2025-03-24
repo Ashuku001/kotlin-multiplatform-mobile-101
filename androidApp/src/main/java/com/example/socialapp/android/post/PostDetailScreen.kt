@@ -38,7 +38,7 @@ fun PostDetailScreen (
     postUiState: PostUiState,
     commentsUiState: CommentsUiState,
     onCommentMoreIconClick: (Comment) -> Unit,
-    onProfileClick: (Int) -> Unit,
+    onProfileClick: (userId: Long) -> Unit,
     onAddCommentClick: () -> Unit,
     fetchData: () -> Unit
 ) {
@@ -151,7 +151,7 @@ fun PostDetailPreview() {
             PostDetailScreen(
                 postUiState = PostUiState(
                     isLoading = false,
-                    post = samplePosts.first()
+                    post = samplePosts.first().toPost()
                 ),
                 commentsUiState = CommentsUiState(
                     isLoading = false,

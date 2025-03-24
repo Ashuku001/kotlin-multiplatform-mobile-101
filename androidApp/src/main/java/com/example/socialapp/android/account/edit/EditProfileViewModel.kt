@@ -18,7 +18,7 @@ class EditProfileViewModel: ViewModel() {
     private val _bioTextFieldValue: MutableState<TextFieldValue> =  mutableStateOf(TextFieldValue(text = ""))
     val bioTextFieldValue: TextFieldValue get() = _bioTextFieldValue.value
 
-    fun fetchProfile(userId: Int) {
+    fun fetchProfile(userId: Long) {
         viewModelScope.launch{
             _editProfileUiState.value = _editProfileUiState.value.copy(isLoading = true)
 
@@ -26,7 +26,7 @@ class EditProfileViewModel: ViewModel() {
 
             _editProfileUiState.value = _editProfileUiState.value.copy(
                 isLoading = false,
-                profile = sampleProfiles.find{it.id == userId}
+                profile = sampleProfiles.find{it.id.toLong() == userId}
             )
 
             _bioTextFieldValue.value = _bioTextFieldValue.value.copy(

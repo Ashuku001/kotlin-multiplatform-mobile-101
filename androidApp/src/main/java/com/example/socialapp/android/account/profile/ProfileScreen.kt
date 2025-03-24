@@ -3,7 +3,6 @@ package com.example.socialapp.android.account.profile
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,13 +38,13 @@ import com.example.socialapp.android.R
 import com.example.socialapp.android.common.components.CircleImage
 import com.example.socialapp.android.common.components.FollowsButton
 import com.example.socialapp.android.common.components.PostListItem
-import com.example.socialapp.android.common.fakedata.Post
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.android.common.fakedata.sampleProfiles
 import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.common.theming.SmallSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.common.domain.model.Post
 
 @Composable
 fun ProfileScreen(
@@ -56,9 +55,9 @@ fun ProfileScreen(
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
     onPostClick: (post: Post) -> Unit,
-    onProfileClick: (userId: Int) -> Unit,
-    onLikeClick: (String) -> Unit,
-    onCommentClick: (String) -> Unit,
+    onProfileClick: (userId: Long) -> Unit,
+    onLikeClick: (postId: Long) -> Unit,
+    onCommentClick: (postId: Long) -> Unit,
     fetchData: () -> Unit
     ) {
 
@@ -87,7 +86,7 @@ fun ProfileScreen(
             }
             items (
                 items = profilePostUiState.posts,
-                key = {post -> post.id}
+                key = {post -> post.postId}
             ) {
                 PostListItem(
                     post = it,
@@ -255,7 +254,7 @@ fun ProfileScreenPreview() {
                 ),
                 profilePostUiState = ProfilePostUiState(
                     isLoading = false,
-                    posts = samplePosts
+                    posts = samplePosts.map { it.toPost() }
                 ),
                 onButtonClick = {  },
                 onFollowersClick ={  },

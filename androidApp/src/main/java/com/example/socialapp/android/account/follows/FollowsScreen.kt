@@ -15,7 +15,7 @@ fun FollowsScreen (
     modifier: Modifier = Modifier,
     uiState: FollowsUiState,
     fetchFollows: () -> Unit,
-    onItemClick: (Int) -> Unit
+    onItemClick: (Long) -> Unit
 ) {
 
     Box (
@@ -32,10 +32,9 @@ fun FollowsScreen (
                 FollowsListItem(
                     name = it.name,
                     bio = it.bio,
-                    imageUrl = it.profileUrl
-                ) {
-                    onItemClick(it.id)
-                }
+                    imageUrl = it.imageUrl,
+                    onItemClick = { TODO("implement follows") }
+                )
             }
 
         }

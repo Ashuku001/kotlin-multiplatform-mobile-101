@@ -23,12 +23,12 @@ fun FollowsListItem(
     modifier: Modifier = Modifier,
     name: String,
     bio: String,
-    imageUrl: String,
+    imageUrl: String?,
     onItemClick: () -> Unit
 ) {
     Row (
         modifier = modifier.fillMaxWidth()
-            .clickable { onItemClick() }
+            .clickable { onItemClick()}
             .padding(
                 horizontal = LargeSpacing,
                 vertical = MediumSpacing

@@ -34,19 +34,19 @@ import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.LightGray
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
-import com.example.socialapp.android.common.fakedata.Post
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.android.common.theming.ExtraLargeSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.common.domain.model.Post
 
 @Composable
 fun PostListItem (
     modifier: Modifier = Modifier,
     post: Post,
     onPostClick: (Post) -> Unit,
-    onProfileClick: (Int) -> Unit,
-    onLikeClick: (String) -> Unit,
-    onCommentClick: (String) -> Unit,
+    onProfileClick: (userId: Long) -> Unit,
+    onLikeClick: (postId: Long) -> Unit,
+    onCommentClick: (postId: Long) -> Unit,
     isDetailScreen: Boolean = false
 ) {
     Column (
@@ -59,10 +59,10 @@ fun PostListItem (
             .padding(bottom = ExtraLargeSpacing)
     ) {
         PostHeader(
-            name = post.authorName,
-            profileUrl = post.authorImage,
+            name = post.userName,
+            profileUrl = post.imageUrl,
             date = post.createdAt,
-            onProfileClick = { onProfileClick(post.authorId) },
+            onProfileClick = { onProfileClick(post.userId) },
         )
 
         AsyncImage(
@@ -80,15 +80,15 @@ fun PostListItem (
         )
 
         PostFooter(
-            postId = post.id,
+            postId = post.postId,
             likesCount = post.likesCount,
-            commentCount = post.commentCount,
+            commentCount = post.commentsCount,
             onLikeClick = onLikeClick,
             onCommentClick = onCommentClick,
         )
 
         Text(
-            text = post.text,
+            text = post.caption,
             style = MaterialTheme.typography.bodySmall,
             modifier = modifier.padding(horizontal = LargeSpacing),
             maxLines = if (isDetailScreen) {
@@ -172,12 +172,12 @@ fun PostHeader (
 @Composable
 fun PostFooter (
     modifier: Modifier = Modifier,
-    postId: String,
+    postId: Long,
     likesCount: Int,
     commentCount: Int,
     isPostLiked: Boolean = false,
-    onLikeClick: (String) -> Unit,
-    onCommentClick: (String) -> Unit,
+    onLikeClick: (Long) -> Unit,
+    onCommentClick: (Long) -> Unit,
 ) {
     Row (
         modifier = modifier
@@ -238,7 +238,7 @@ private fun PostListItemPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostListItem(
-                post = samplePosts.first(),
+                post = samplePosts.first().toPost(),
                 onPostClick = {},
                 onProfileClick = {},
                 onCommentClick = {},
@@ -271,7 +271,7 @@ private fun PostLikesRowPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostFooter (
-                postId = "",
+                postId = 123,
                 likesCount = 12,
                 commentCount = 2,
                 isPostLiked = true,
