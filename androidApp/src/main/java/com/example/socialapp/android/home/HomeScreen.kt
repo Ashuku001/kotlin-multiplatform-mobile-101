@@ -13,36 +13,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.socialapp.android.common.components.PostListItem
 import com.example.socialapp.android.common.components.PullToRefreshBox
-import com.example.socialapp.android.common.fakedata.FollowsUser
-import com.example.socialapp.android.common.fakedata.Post
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.android.common.fakedata.sampleUsers
 import com.example.socialapp.android.common.theming.SocialAppTheme
 import com.example.socialapp.android.home.onboarding.OnBoardingSection
-import com.example.socialapp.android.home.onboarding.OnBoardingUiState
+import com.example.socialapp.common.domain.model.Post
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onBoardingUiState: OnBoardingUiState,
-    postUiState: PostUiState,
-    onPostClick: (Post) -> Unit,
-    onProfileClick: (Int) -> Unit,
-    onLikeClick: (postId: String) -> Unit,
-    onCommentClick: (postId: String) -> Unit,
-    isDetailScreen: Boolean = false,
-    onFollowButtonClick: (Boolean, FollowsUser) -> Unit,
-    onBoardingFinish: () -> Unit,
-    fetchData: () -> Unit
+    homeRefreshState: HomeRefreshState,
+    postFeedUiState: PostFeedUiState,
+    onUiAction: (HomeUiAction) -> Unit,
+    onPostDetailNavigation: (Post) -> Unit,
+    onProfileNavigation: (userId: Long) -> Unit,
 ) {
     val pullRefreshState = rememberPullToRefreshState()
 
     PullToRefreshBox(
         modifier = Modifier,
         state = pullRefreshState,
-        isRefreshing = postUiState.isLoading && onBoardingUiState.isLoading,
-        onRefresh = fetchData
+        isRefreshing = postFeedUiState.isLoading || homeRefreshState.isRefreshing,
+        onRefresh = { onUiAction(HomeUiAction.RefreshAction) }
     ) {
         LazyColumn (
             modifier = modifier.fillMaxSize()
@@ -50,26 +44,32 @@ fun HomeScreen(
             if (onBoardingUiState.shouldShowOnBoarding) {
                 item(key = "onBoardingSection") {
                     OnBoardingSection(
-                        users = onBoardingUiState.users,
-                        onUserClick = { onProfileClick(it.id) },
-                        onFollowButtonClick = onFollowButtonClick
+                        users = onBoardingUiState.followableUsers,
+                        onUserClick = {onProfileNavigation(it.id)},
+                        onFollowButtonClick = {
+                            _, user ->
+                            onUiAction(
+                                HomeUiAction.FollowUserAction(
+                                    user
+                                )
+                            )
+                        }
                     ) {
-                        onBoardingFinish()
+                        onUiAction(HomeUiAction.RemoveOnBoardingAction)
                     }
                 }
             }
 
-            items(items = postUiState.posts, key = {post -> post.id}) {
+            items(items = postFeedUiState.posts, key = { post -> post.postId}) { post ->
                 PostListItem(
-                    post = it,
-                    onPostClick = onPostClick,
-                    onProfileClick = onProfileClick,
-                    onLikeClick = onLikeClick,
-                    onCommentClick = onCommentClick
+                    post = post,
+                    onPostClick = { onPostDetailNavigation(it) },
+                    onProfileClick = { onProfileNavigation(it.toLong())},
+                    onLikeClick = { onUiAction(HomeUiAction.PostLikeAction(post.postId)) },
+                    onCommentClick = {onPostDetailNavigation(post)}
                 )
             }
         }
-
     }
 }
 
@@ -81,19 +81,18 @@ private fun HomeScreenPreview() {
         Surface(color = MaterialTheme.colorScheme.background) {
             HomeScreen(
                 onBoardingUiState = OnBoardingUiState(
-                    users = sampleUsers,
+                    followableUsers = sampleUsers.map { it.toFollowsUser() },
                     shouldShowOnBoarding = true,
                 ),
-                postUiState = PostUiState(
-                    posts = samplePosts,
+                postFeedUiState = PostFeedUiState(
+                    posts = samplePosts.map { it.toPost() },
                 ),
-                onPostClick = {},
-                onProfileClick = {},
-                onLikeClick = {},
-                onCommentClick = {},
-                onFollowButtonClick = {_, _ ->},
-                onBoardingFinish = {},
-                fetchData = {}
+                homeRefreshState = HomeRefreshState(
+                    isRefreshing = false
+                ),
+                onProfileNavigation = {},
+                onPostDetailNavigation = {},
+                onUiAction = {}
             )
         }
     }

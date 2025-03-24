@@ -10,6 +10,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.example.socialapp.android.R
+import com.example.socialapp.android.common.util.toCurrentUrl
 
 @Composable
 fun CircleImage(
@@ -17,6 +18,7 @@ fun CircleImage(
     imageUrl: String?,
     onClick: () -> Unit
 ) {
+
     AsyncImage(
         model = imageUrl,
         contentDescription = null,

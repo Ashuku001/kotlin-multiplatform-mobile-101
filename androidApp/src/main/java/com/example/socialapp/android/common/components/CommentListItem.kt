@@ -31,7 +31,7 @@ import com.example.socialapp.android.common.theming.SocialAppTheme
 fun CommentListItem(
     modifier: Modifier = Modifier,
     comment: Comment,
-    onProfileClick: (Int) -> Unit,
+    onProfileClick: (Long) -> Unit,
     onMoreIconClick: () -> Unit
 ) {
 
@@ -43,7 +43,7 @@ fun CommentListItem(
                 imageUrl = comment.authorImageUrl,
                 modifier = modifier.size(30.dp)
             ) {
-                onProfileClick(comment.authorId)
+                onProfileClick(comment.authorId.toLong())
             }
             Column {
                 Row(

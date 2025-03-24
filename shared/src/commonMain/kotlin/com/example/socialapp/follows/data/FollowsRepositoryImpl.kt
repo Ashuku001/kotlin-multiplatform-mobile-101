@@ -26,6 +26,7 @@ internal class FollowsRepositoryImpl (
                 // get suggestion if available
                 val apiResponse = followsApiService.getFollowableUsers(userData.token, userData.id)
 
+                println("API RESPONSE $apiResponse")
                 when (apiResponse.code) {
                     HttpStatusCode.OK -> {
                         Result.Success(
@@ -49,6 +50,7 @@ internal class FollowsRepositoryImpl (
             } catch (ioException: IOException){
                 Result.Error(message = Constants.NO_INTERNET_ERROR)
             } catch (anyError: Throwable) {
+                println("EXCEPTION $anyError",)
                 Result.Error(message = "Something went wrong.")
             }
         }
@@ -63,6 +65,7 @@ internal class FollowsRepositoryImpl (
                 val userData = userPreferences.getUserData()
                 val followsParams = FollowsParams(follower = userData.id, following = followedUserId)
 
+                println("SHOULD FOLLOW $shouldFollow")
                 val apiResponse = if (shouldFollow) {
                     followsApiService.followUser(userData.token, followsParams)
                 } else {
@@ -80,6 +83,7 @@ internal class FollowsRepositoryImpl (
             } catch (ioException: IOException){
                 Result.Error(message = Constants.NO_INTERNET_ERROR)
             } catch (exception: Throwable) {
+                println("Error $exception")
                 Result.Error(message = "${exception.message}")
             }
         }

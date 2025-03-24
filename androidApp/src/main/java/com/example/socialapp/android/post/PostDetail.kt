@@ -10,7 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 @Destination
 fun PostDetail(
     navigator: DestinationsNavigator,
-    postId: String,
+    postId: Long,
 ) {
     val viewModel: PostDetailScreenViewModel = koinViewModel()
 

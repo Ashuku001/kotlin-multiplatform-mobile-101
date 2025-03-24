@@ -4,8 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.socialapp.android.common.fakedata.FollowsUser
 import com.example.socialapp.android.common.fakedata.sampleUsers
+import com.example.socialapp.common.domain.model.FollowsUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -13,7 +13,7 @@ class FollowsViewModel: ViewModel() {
     private val _uiState: MutableState<FollowsUiState> = mutableStateOf(FollowsUiState())
     val uiState: FollowsUiState get() = _uiState.value
 
-    fun fetchFollows(userId: Int, followsType: Int){
+    fun fetchFollows(userId: Long, followsType: Int){
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true
@@ -23,7 +23,7 @@ class FollowsViewModel: ViewModel() {
 
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
-                followsUsers = sampleUsers
+                followsUsers = sampleUsers.map { it.toFollowsUser() }
             )
         }
     }

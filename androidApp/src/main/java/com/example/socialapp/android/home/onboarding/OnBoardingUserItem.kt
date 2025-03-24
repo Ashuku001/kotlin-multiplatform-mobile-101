@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.components.CircleImage
 import com.example.socialapp.android.common.components.FollowsButton
-import com.example.socialapp.android.common.fakedata.FollowsUser
 import com.example.socialapp.android.common.fakedata.sampleUsers
+import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.common.theming.SmallSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.android.common.util.toCurrentUrl
+import com.example.socialapp.common.domain.model.FollowsUser
 
 @Composable
 fun OnBoardingUserItem(
@@ -51,7 +55,7 @@ fun OnBoardingUserItem(
         ) {
             CircleImage(
                 modifier = modifier.size(50.dp),
-                imageUrl = followsUser.profileUrl
+                imageUrl = followsUser.imageUrl?.toCurrentUrl()
             ) {
                 onUserClick(followsUser)
             }
@@ -68,11 +72,12 @@ fun OnBoardingUserItem(
             Spacer(modifier = modifier.height(SmallSpacing))
 
             FollowsButton(
-                modifier = modifier.fillMaxWidth().height(30.dp),
-                text = R.string.follow_text_label,
-                onClick = {onFollowButtonClick(!isFollowing, followsUser)}
+                modifier = modifier.fillMaxWidth().heightIn(25.dp)
+                    .widthIn(100.dp),
+                isOutlined = followsUser.isFollowing,
+                text = if (!followsUser.isFollowing) R.string.follow_text_label else R.string.unfollow_text_label,
+                onClick = {onFollowButtonClick(!isFollowing, followsUser)},
             )
-
         }
     }
 }
@@ -82,7 +87,7 @@ fun OnBoardingUserItem(
 fun OnBoardingUserItemPreview() {
     SocialAppTheme {
         OnBoardingUserItem(
-            followsUser = sampleUsers.first(),
+            followsUser = sampleUsers.map{it.toFollowsUser()}.first(),
             onUserClick = {},
             onFollowButtonClick = {_, _ ->}
         )

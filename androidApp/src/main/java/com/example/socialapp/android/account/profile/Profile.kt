@@ -13,7 +13,7 @@ import org.koin.androidx.compose.koinViewModel
 @Destination
 fun Profile (
     navigator: DestinationsNavigator,
-    userId: Int,
+    userId: Long,
 ) {
     val viewModel: ProfileViewModel = koinViewModel()
 
@@ -23,7 +23,7 @@ fun Profile (
         onButtonClick = {navigator.navigate(EditProfileDestination(userId))},
         onFollowersClick ={navigator.navigate(FollowersDestination(userId))},
         onFollowingClick= {navigator.navigate(FollowingDestination(userId))},
-        onPostClick = {post -> navigator.navigate(PostDetailDestination(post.id))},
+        onPostClick = {post -> navigator.navigate(PostDetailDestination(post.postId))},
         onProfileClick = {},
         onLikeClick = {},
         onCommentClick = {},

@@ -2,6 +2,7 @@ package com.example.socialapp.common.data.model
 
 import com.example.socialapp.common.domain.model.FollowsUser
 import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -31,8 +32,9 @@ internal data class FollowsApiResponseData(
     val message: String? = null
 )
 
+@Serializable
 internal data class FollowsApiResponse(
-    val code: HttpStatusCode,
+    @Contextual val code: HttpStatusCode,
     val data: FollowsApiResponseData
 )
 
