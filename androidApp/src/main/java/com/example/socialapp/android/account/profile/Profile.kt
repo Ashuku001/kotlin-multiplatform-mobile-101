@@ -9,8 +9,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
-@Composable
+
 @Destination
+@Composable
 fun Profile (
     navigator: DestinationsNavigator,
     userId: Long,
@@ -20,13 +21,19 @@ fun Profile (
     ProfileScreen(
         userInfoUiState = viewModel.userUiInfoUiState,
         profilePostUiState = viewModel.profilePostUiState,
-        onButtonClick = {navigator.navigate(EditProfileDestination(userId))},
-        onFollowersClick ={navigator.navigate(FollowersDestination(userId))},
-        onFollowingClick= {navigator.navigate(FollowingDestination(userId))},
-        onPostClick = {post -> navigator.navigate(PostDetailDestination(post.postId))},
-        onProfileClick = {},
-        onLikeClick = {},
-        onCommentClick = {},
-        fetchData = { viewModel.fetchProfile(userId)}
+        onFollowButtonClick = {
+            viewModel.userUiInfoUiState.profile?.let { profile ->
+                if(profile.isOwnProfile) {
+                    navigator.navigate(EditProfileDestination(userId))
+                } else {
+                    viewModel.onUiAction(ProfileUiAction.FollowUserAction(profile))
+                }
+            }
+        },
+        profileId = userId,
+        onUiAction = { viewModel.onUiAction(it) },
+        onFollowersScreenNavigation = {navigator.navigate(FollowersDestination(userId))},
+        onFollowingScreenNavigation = {navigator.navigate(FollowingDestination(userId))},
+        onPostDetailNavigation = {post -> navigator.navigate(PostDetailDestination(post.postId))}
     )
 }

@@ -17,12 +17,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +48,8 @@ import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.common.theming.SmallSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.android.common.util.Constants
+import com.example.socialapp.android.common.util.toCurrentUrl
 import com.example.socialapp.common.domain.model.Post
 
 @Composable
@@ -51,15 +57,29 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     userInfoUiState: UserInfoUiState,
     profilePostUiState: ProfilePostUiState,
-    onButtonClick: () -> Unit,
-    onFollowersClick: () -> Unit,
-    onFollowingClick: () -> Unit,
-    onPostClick: (post: Post) -> Unit,
-    onProfileClick: (userId: Long) -> Unit,
-    onLikeClick: (postId: Long) -> Unit,
-    onCommentClick: (postId: Long) -> Unit,
-    fetchData: () -> Unit
-    ) {
+    profileId: Long,
+    onUiAction: (ProfileUiAction) -> Unit,
+    onFollowButtonClick: () -> Unit,
+    onFollowersScreenNavigation: () -> Unit,
+    onFollowingScreenNavigation: () -> Unit,
+    onPostDetailNavigation: (post: Post) -> Unit
+) {
+
+    val listState = rememberLazyListState()
+
+    val shouldFetchMorePosts by remember {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
+            if (layoutInfo.totalItemsCount == 0) {
+                false
+            } else {
+                val lastVisibleItem = visibleItemsInfo.last()
+
+                (lastVisibleItem.index + 1 == layoutInfo.totalItemsCount)
+            }
+        }
+    }
 
     if (profilePostUiState.isLoading || userInfoUiState.isLoading) {
         Box(
@@ -70,31 +90,47 @@ fun ProfileScreen(
         }
     } else {
         LazyColumn (
-            modifier = modifier.fillMaxSize()
+            modifier = modifier.fillMaxSize(),
+            state = listState
         ) {
             item(key = "header_section") {
                 ProfileHeaderSection(
-                    imageUrl = userInfoUiState.profile?.profileUrl ?: "",
+                    imageUrl = userInfoUiState.profile?.imageUrl,
                     name = userInfoUiState.profile?.name ?: "",
                     bio = userInfoUiState.profile?.bio ?: "",
+                    isFollowing = userInfoUiState.profile?.isFollowing ?: false,
+                    isCurrentUser = userInfoUiState.profile?.isOwnProfile ?: false,
                     followersCount = userInfoUiState.profile?.followersCount ?: 0,
                     followingCount = userInfoUiState.profile?.followingCount ?: 0,
-                    onButtonClick = onButtonClick,
-                    onFollowersClick = onFollowersClick,
-                    onFollowingClick = onFollowingClick,
+                    onButtonClick = onFollowButtonClick,
+                    onFollowersClick = onFollowersScreenNavigation,
+                    onFollowingClick = onFollowingScreenNavigation,
                 )
             }
+
             items (
                 items = profilePostUiState.posts,
                 key = {post -> post.postId}
             ) {
                 PostListItem(
                     post = it,
-                    onPostClick = onPostClick,
-                    onProfileClick = onProfileClick,
-                    onLikeClick =  onLikeClick ,
-                    onCommentClick =  onCommentClick
+                    onPostClick = onPostDetailNavigation,
+                    onProfileClick = {  },
+                    onLikeClick = {post -> onUiAction(ProfileUiAction.PostLikeAction(post))},
+                    onCommentClick = {  }
                 )
+            }
+
+            if(profilePostUiState.isLoading) {
+                item(key = Constants.LOADING_MORE_ITEM_KEY) {
+                    Box(
+                        modifier = modifier.fillMaxWidth()
+                            .padding(vertical = MediumSpacing, horizontal = LargeSpacing),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
             }
 
         }
@@ -103,7 +139,15 @@ fun ProfileScreen(
     LaunchedEffect(
         key1 = Unit,
     ) {
-        fetchData()
+        onUiAction(ProfileUiAction.FetchProfileAction(profileId = profileId))
+    }
+
+    LaunchedEffect(
+        key1 = shouldFetchMorePosts,
+    ) {
+        if(shouldFetchMorePosts && !profilePostUiState.endReached){
+            onUiAction(ProfileUiAction.LoadMorePostsAction)
+        }
     }
 
 
@@ -113,7 +157,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileHeaderSection(
     modifier: Modifier = Modifier,
-    imageUrl: String,
+    imageUrl: String?,
     name: String,
     bio: String,
     followersCount: Int,
@@ -133,7 +177,7 @@ fun ProfileHeaderSection(
     ) {
         CircleImage (
             modifier = modifier.size(90.dp),
-            imageUrl = imageUrl,
+            imageUrl = imageUrl?.toCurrentUrl(),
             onClick = {}
         )
 
@@ -178,7 +222,11 @@ fun ProfileHeaderSection(
                 )
             }
             FollowsButton(
-                text = R.string.follow_text_label,
+                text = when {
+                    isCurrentUser -> R.string.edit_profile_label
+                    isFollowing -> R.string.unfollow_text_label
+                    else -> R.string.follow_text_label
+                },
                 onClick = onButtonClick,
                 modifier =  modifier
                     .heightIn(30.dp)
@@ -250,20 +298,18 @@ fun ProfileScreenPreview() {
             ProfileScreen(
                 userInfoUiState = UserInfoUiState(
                     isLoading = false,
-                    profile = sampleProfiles.first()
+                    profile = sampleProfiles.first().toDomainProfile()
                 ),
                 profilePostUiState = ProfilePostUiState(
                     isLoading = false,
                     posts = samplePosts.map { it.toDomainPost() }
                 ),
-                onButtonClick = {  },
-                onFollowersClick ={  },
-                onFollowingClick= {},
-                onPostClick = {},
-                onProfileClick = {},
-                onLikeClick = {},
-                onCommentClick = {},
-                fetchData = {}
+                profileId = 12,
+                onUiAction = {},
+                onFollowButtonClick = {},
+                onFollowersScreenNavigation = { },
+                onFollowingScreenNavigation = {},
+                onPostDetailNavigation = {}
             )
         }
     }

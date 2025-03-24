@@ -48,8 +48,8 @@ fun PostListItem (
     post: Post,
     onPostClick: (Post) -> Unit,
     onProfileClick: (userId: Long) -> Unit,
-    onLikeClick: (postId: Long) -> Unit,
-    onCommentClick: (postId: Long) -> Unit,
+    onLikeClick: (post: Post) -> Unit,
+    onCommentClick: (post: Post) -> Unit,
     isDetailScreen: Boolean = false
 ) {
     Column (
@@ -124,10 +124,9 @@ fun PostHeader (
     ) {
         CircleImage(
             imageUrl = profileUrl,
-            modifier = modifier.size(30.dp)
-        ) {
-            onProfileClick()
-        }
+            modifier = modifier.size(30.dp),
+            onClick = onProfileClick
+        )
         Text(
             text = name,
             style = MaterialTheme.typography.titleSmall,
@@ -179,8 +178,8 @@ fun PostFooter (
     likesCount: Int,
     commentCount: Int,
     isPostLiked: Boolean = false,
-    onLikeClick: (Long) -> Unit,
-    onCommentClick: (Long) -> Unit,
+    onLikeClick: (Post) -> Unit,
+    onCommentClick: (Post) -> Unit,
 ) {
     Row (
         modifier = modifier
@@ -192,7 +191,7 @@ fun PostFooter (
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            onClick = { onLikeClick(post.postId) }
+            onClick = { onLikeClick(post) }
         ) {
             Icon(
                 painter = if(post.isLiked ) painterResource(id = R.drawable.like_icon_filled) else painterResource(id = R.drawable.like_icon_outlined),
@@ -212,7 +211,7 @@ fun PostFooter (
         ))
 
         IconButton(
-            onClick = { onCommentClick(post.postId) }
+            onClick = { onCommentClick(post) }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.chat_icon_outlined),

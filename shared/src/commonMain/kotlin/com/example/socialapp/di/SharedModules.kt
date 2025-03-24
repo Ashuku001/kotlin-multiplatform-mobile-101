@@ -3,6 +3,7 @@ package com.example.socialapp.di
 import com.example.socialapp.account.AccountApiService
 import com.example.socialapp.account.data.repository.ProfileRepositoryImpl
 import com.example.socialapp.account.domain.repository.ProfileRepository
+import com.example.socialapp.account.domain.usecase.GetProfileUseCase
 import com.example.socialapp.auth.data.AuthRepositoryImpl
 import com.example.socialapp.auth.data.AuthService
 import com.example.socialapp.auth.domain.repository.AuthRepository
@@ -56,6 +57,7 @@ private val followsModule = module {
 private val accountModule = module {
     factory {AccountApiService()}
     factory {GetPostsUseCase()}
+    factory {GetProfileUseCase()}
 
     single<ProfileRepository> {ProfileRepositoryImpl(get(), get(), get())}
 }

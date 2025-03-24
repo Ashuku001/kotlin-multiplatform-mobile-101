@@ -18,7 +18,7 @@ val appModule = module {
     viewModel {MainActivityViewModel(get())}
     viewModel {HomeScreenViewModel(get(), get(), get(), get())}
     viewModel {PostDetailScreenViewModel()}
-    viewModel {ProfileViewModel()}
+    viewModel {ProfileViewModel(get(), get(), get(), get())}
     viewModel {EditProfileViewModel()}
     viewModel {FollowsViewModel()}
 }

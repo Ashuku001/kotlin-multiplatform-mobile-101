@@ -32,6 +32,7 @@ import com.example.socialapp.android.common.theming.SocialAppTheme
 import com.example.socialapp.android.common.util.Constants
 import com.example.socialapp.android.home.onboarding.OnBoardingSection
 import com.example.socialapp.common.domain.model.Post
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,9 +45,7 @@ fun HomeScreen(
     onPostDetailNavigation: (Post) -> Unit,
     onProfileNavigation: (userId: Long) -> Unit,
 ) {
-    val pullRefreshState = rememberPullToRefreshState(
-
-    )
+    val pullRefreshState = rememberPullToRefreshState()
 
     val listState = rememberLazyListState() // list column state
 
@@ -95,15 +94,10 @@ fun HomeScreen(
                 }
             }
 
-            item(key = "trending_title") {
-                Text(
-                    text = "Trending Posts",
-                    modifier = modifier.fillMaxWidth(),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+            // TODO check pagination it is duplicating
+            println("POSTS ${postFeedUiState.posts.map{it.postId}}")
 
-            items(items = postFeedUiState.posts, key = { post -> post.postId}) { post ->
+            items(items = postFeedUiState.posts, key = { post ->  "${post.postId}_${Random.nextInt()}"  }) { post ->
                 PostListItem(
                     post = post,
                     onPostClick = { onPostDetailNavigation(it) },
@@ -116,7 +110,8 @@ fun HomeScreen(
             if(postFeedUiState.isLoading && postFeedUiState.posts.isNotEmpty()) {
                 item(key = Constants.LOADING_MORE_ITEM_KEY) {
                     Box(
-                        modifier = modifier.fillMaxWidth()
+                        modifier = modifier
+                            .fillMaxWidth()
                             .padding(vertical = MediumSpacing, horizontal = LargeSpacing),
                         contentAlignment = Alignment.Center
                     ) {
