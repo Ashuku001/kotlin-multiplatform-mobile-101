@@ -20,7 +20,7 @@ fun CircleImage(
 ) {
 
     AsyncImage(
-        model = imageUrl,
+        model = imageUrl?.toCurrentUrl(),
         contentDescription = null,
         modifier = modifier.clip(CircleShape).clickable { onClick() },
         placeholder = if (!isSystemInDarkTheme()) {

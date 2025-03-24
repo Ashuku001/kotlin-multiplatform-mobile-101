@@ -34,7 +34,7 @@ internal class PostApiService: KtorApi() {
         likeParams: LikeParams
     ): LikeApiResponse {
         val httpResponse = client.post{
-            endpoint(path = "/posts/likes/add")
+            endpoint(path = "/post/likes/add")
             setBody(likeParams)
             setToken(token = userToken)
         }
@@ -47,7 +47,7 @@ internal class PostApiService: KtorApi() {
         likeParams: LikeParams
     ): LikeApiResponse {
         val httpResponse = client.delete(){
-            endpoint(path = "/posts/likes/remove")
+            endpoint(path = "/post/likes/remove")
             setBody(likeParams)
             setToken(token = userToken)
         }

@@ -9,6 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
+import com.example.socialapp.android.common.theming.LargeSpacing
+import com.example.socialapp.android.common.theming.MediumSpacing
 
 @Composable
 @ExperimentalMaterial3Api
@@ -19,10 +24,13 @@ fun PullToRefreshBox(
     state: PullToRefreshState = rememberPullToRefreshState(),
     contentAlignment: Alignment = Alignment.TopStart,
     indicator: @Composable BoxScope.() -> Unit = {
-        Indicator(
-            modifier = Modifier.align(Alignment.TopCenter),
-            state = state,
-        )
+        Box(
+            modifier = modifier.fillMaxWidth()
+                .padding(vertical = MediumSpacing, horizontal = LargeSpacing),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
     },
     content: @Composable BoxScope.() -> Unit
 ): Unit {

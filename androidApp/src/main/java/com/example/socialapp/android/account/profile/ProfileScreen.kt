@@ -254,7 +254,7 @@ fun ProfileScreenPreview() {
                 ),
                 profilePostUiState = ProfilePostUiState(
                     isLoading = false,
-                    posts = samplePosts.map { it.toPost() }
+                    posts = samplePosts.map { it.toDomainPost() }
                 ),
                 onButtonClick = {  },
                 onFollowersClick ={  },

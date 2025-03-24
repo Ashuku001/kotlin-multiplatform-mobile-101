@@ -151,7 +151,7 @@ fun PostDetailPreview() {
             PostDetailScreen(
                 postUiState = PostUiState(
                     isLoading = false,
-                    post = samplePosts.first().toPost()
+                    post = samplePosts.first().toDomainPost()
                 ),
                 commentsUiState = CommentsUiState(
                     isLoading = false,

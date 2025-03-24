@@ -1,6 +1,7 @@
 package com.example.socialapp.common.data.model
 
 import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,7 +16,8 @@ data class LikeResponseData(
     val message: String? = null
 )
 
+@Serializable
 data class LikeApiResponse(
-    val code: HttpStatusCode,
+    @Contextual val code: HttpStatusCode,
     val data: LikeResponseData
 )
