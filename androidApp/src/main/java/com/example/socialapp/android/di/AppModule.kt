@@ -16,7 +16,7 @@ val appModule = module {
     viewModel {LoginViewModel(get(), get())} // register LoginViewModel on calling koinViewModel() in a composable we receive an instance of LoginViewModel firt get for signup use case second for datastore as required by constructor
     viewModel {SignupViewModel(get(), get())}
     viewModel {MainActivityViewModel(get())}
-    viewModel {HomeScreenViewModel(get(), get())}
+    viewModel {HomeScreenViewModel(get(), get(), get(), get())}
     viewModel {PostDetailScreenViewModel()}
     viewModel {ProfileViewModel()}
     viewModel {EditProfileViewModel()}

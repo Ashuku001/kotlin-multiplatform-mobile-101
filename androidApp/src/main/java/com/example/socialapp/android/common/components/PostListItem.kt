@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,8 +36,10 @@ import com.example.socialapp.android.common.theming.LightGray
 import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.fakedata.samplePosts
+import com.example.socialapp.android.common.theming.Black54
 import com.example.socialapp.android.common.theming.ExtraLargeSpacing
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.android.common.util.toCurrentUrl
 import com.example.socialapp.common.domain.model.Post
 
 @Composable
@@ -66,7 +69,7 @@ fun PostListItem (
         )
 
         AsyncImage(
-            model = post.imageUrl,
+            model = post.imageUrl.toCurrentUrl(),
             contentDescription = null,
             modifier = modifier
                 .fillMaxWidth()
@@ -80,7 +83,7 @@ fun PostListItem (
         )
 
         PostFooter(
-            postId = post.postId,
+            post = post,
             likesCount = post.likesCount,
             commentCount = post.commentsCount,
             onLikeClick = onLikeClick,
@@ -172,7 +175,7 @@ fun PostHeader (
 @Composable
 fun PostFooter (
     modifier: Modifier = Modifier,
-    postId: Long,
+    post: Post,
     likesCount: Int,
     commentCount: Int,
     isPostLiked: Boolean = false,
@@ -189,15 +192,15 @@ fun PostFooter (
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            onClick = { onLikeClick(postId) }
+            onClick = { onLikeClick(post.postId) }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.like_icon_outlined),
+                painter = if(post.isLiked ) painterResource(id = R.drawable.like_icon_filled) else painterResource(id = R.drawable.like_icon_outlined),
                 contentDescription = null,
-                tint = if (isSystemInDarkTheme()) {
-                    DarkGray
+                tint = if (post.isLiked) {
+                    Color.Red
                 } else {
-                    LightGray
+                    DarkGray
                 }
 
             )
@@ -209,7 +212,7 @@ fun PostFooter (
         ))
 
         IconButton(
-            onClick = { onCommentClick(postId) }
+            onClick = { onCommentClick(post.postId) }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.chat_icon_outlined),
@@ -238,7 +241,7 @@ private fun PostListItemPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostListItem(
-                post = samplePosts.first().toPost(),
+                post = samplePosts.first().toDomainPost(),
                 onPostClick = {},
                 onProfileClick = {},
                 onCommentClick = {},
@@ -271,7 +274,7 @@ private fun PostLikesRowPreview() {
     SocialAppTheme {
         Surface(color = MaterialTheme.colorScheme.surface) {
             PostFooter (
-                postId = 123,
+                post = samplePosts.first().toDomainPost(),
                 likesCount = 12,
                 commentCount = 2,
                 isPostLiked = true,

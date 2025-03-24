@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.socialapp.android.common.fakedata.SamplePost
 import com.example.socialapp.android.common.fakedata.Profile
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.android.common.fakedata.sampleProfiles
@@ -32,7 +31,7 @@ class ProfileViewModel: ViewModel() {
 
             _profilePostUiState.value = _profilePostUiState.value.copy(
                 isLoading = false,
-                posts = samplePosts.map { it.toPost() }
+                posts = samplePosts.map { it.toDomainPost() }
             )
         }
     }

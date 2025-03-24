@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialapp.android.common.fakedata.Comment
-import com.example.socialapp.android.common.fakedata.SamplePost
 import com.example.socialapp.android.common.fakedata.sampleComments
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.common.domain.model.Post
@@ -33,7 +32,7 @@ class PostDetailScreenViewModel: ViewModel() {
 
             _postUiState.value = _postUiState.value.copy(
                 isLoading = false,
-                post = samplePosts.map{it.toPost()}.find { it.postId == postId }
+                post = samplePosts.map{it.toDomainPost()}.find { it.postId == postId }
             )
 
             _commentsUiState.value = _commentsUiState.value.copy(

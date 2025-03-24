@@ -15,7 +15,7 @@ data class SamplePost(
     val isLiked: Boolean = false,
     val isOwnPost: Boolean = false
 ) {
-    fun toPost(): Post {
+    fun toDomainPost(): Post {
         return Post(
             postId = id.toLong(),
             caption = text,
