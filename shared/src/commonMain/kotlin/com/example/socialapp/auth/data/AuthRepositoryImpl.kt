@@ -42,6 +42,7 @@ internal class AuthRepositoryImpl(
                     )
                 }
             } catch(e: Exception) {
+                println("eXCEPTION $e")
                 Result.Error(
                     message = "Oops, we could not send your request. Try later"
                 )

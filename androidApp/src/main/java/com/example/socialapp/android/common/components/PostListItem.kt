@@ -46,7 +46,7 @@ import com.example.socialapp.common.domain.model.Post
 fun PostListItem (
     modifier: Modifier = Modifier,
     post: Post,
-    onPostClick: (Post) -> Unit,
+    onPostClick: ((Post) -> Unit)? = null,
     onProfileClick: (userId: Long) -> Unit,
     onLikeClick: (post: Post) -> Unit,
     onCommentClick: (post: Post) -> Unit,
@@ -58,8 +58,13 @@ fun PostListItem (
             .background(
                 color = MaterialTheme.colorScheme.surface
             )
-            .clickable { onPostClick(post) }
-            .padding(bottom = ExtraLargeSpacing)
+            .let {mod ->
+                if(onPostClick != null) {
+                    mod.clickable { onPostClick(post) }.padding(bottom = ExtraLargeSpacing)
+                } else {
+                    mod
+                }
+            }
     ) {
         PostHeader(
             name = post.userName,

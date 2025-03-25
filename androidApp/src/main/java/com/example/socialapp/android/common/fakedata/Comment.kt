@@ -1,5 +1,7 @@
 package com.example.socialapp.android.common.fakedata
 
+import com.example.socialapp.post.domain.model.PostComment
+
 
 data class Comment(
     val id: String,
@@ -9,7 +11,19 @@ data class Comment(
     val authorImageUrl: String,
     val authorId: Int,
     val postId: Long
-)
+) {
+    fun toDomainPostComment (): PostComment {
+        return PostComment(
+            postId,
+            content = comment,
+            postId,
+            userId = authorId.toLong(),
+            userName = authorName,
+            userImageUrl = authorImageUrl,
+            createdAt = date
+        )
+    }
+}
 
 val sampleComments = listOf(
     Comment(

@@ -142,6 +142,7 @@ fun ProfileScreen(
     LaunchedEffect(
         key1 = Unit,
     ) {
+        println("lauched effect $profileId")
         onUiAction(ProfileUiAction.FetchProfileAction(profileId = profileId))
     }
 

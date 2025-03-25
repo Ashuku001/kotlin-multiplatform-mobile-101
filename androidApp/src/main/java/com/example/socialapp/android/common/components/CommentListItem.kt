@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.socialapp.android.common.fakedata.Comment
 import com.example.socialapp.android.common.theming.DarkGray
 import com.example.socialapp.android.common.theming.LargeSpacing
 import com.example.socialapp.android.common.theming.LightGray
@@ -26,37 +25,38 @@ import com.example.socialapp.android.common.theming.MediumSpacing
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.fakedata.sampleComments
 import com.example.socialapp.android.common.theming.SocialAppTheme
+import com.example.socialapp.android.common.util.toCurrentUrl
+import com.example.socialapp.post.domain.model.PostComment
 
 @Composable
 fun CommentListItem(
     modifier: Modifier = Modifier,
-    comment: Comment,
+    comment: PostComment,
     onProfileClick: (Long) -> Unit,
-    onMoreIconClick: () -> Unit
+    onMoreIconClick: (PostComment) -> Unit
 ) {
-
         Row (
             modifier = modifier.fillMaxWidth().padding(LargeSpacing),
             horizontalArrangement = Arrangement.spacedBy(MediumSpacing)
         ) {
             CircleImage(
-                imageUrl = comment.authorImageUrl,
+                imageUrl = comment.userImageUrl?.toCurrentUrl(),
                 modifier = modifier.size(30.dp)
             ) {
-                onProfileClick(comment.authorId.toLong())
+                onProfileClick(comment.userId)
             }
             Column {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(MediumSpacing),
                 ){
                     Text(
-                        text = comment.authorName,
+                        text = comment.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = modifier.alignByBaseline()
                     )
 
                     Text(
-                        text = comment.date,
+                        text = comment.createdAt,
                         style = MaterialTheme.typography.bodySmall,
                         color = if (isSystemInDarkTheme()) {
                             DarkGray
@@ -74,12 +74,12 @@ fun CommentListItem(
                         } else {
                             LightGray
                         },
-                        modifier = modifier.clickable { onMoreIconClick() }
+                        modifier = modifier.clickable { onMoreIconClick(comment) }
                     )
                 }
 
                 Text(
-                    text = comment.comment,
+                    text = comment.content,
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -95,7 +95,7 @@ fun CommentListItemPreview () {
     SocialAppTheme {
         Surface (color = MaterialTheme.colorScheme.surface) {
             CommentListItem(
-                comment = sampleComments.first(),
+                comment = sampleComments.first().toDomainPostComment(),
                 onProfileClick = {},
                 onMoreIconClick = {}
             )

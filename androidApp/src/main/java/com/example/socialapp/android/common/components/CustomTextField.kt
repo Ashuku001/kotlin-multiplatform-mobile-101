@@ -2,7 +2,6 @@ package com.example.socialapp.android.common.components
 
 import androidx.compose.runtime.Composable
 import androidx.annotation.StringRes
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.socialapp.android.common.theming.Gray
 import com.example.socialapp.android.common.theming.SocialAppTheme
 import com.example.socialapp.android.R
 import com.example.socialapp.android.common.theming.Typography

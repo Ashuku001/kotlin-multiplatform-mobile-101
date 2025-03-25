@@ -17,9 +17,8 @@ fun PostDetail(
     PostDetailScreen(
         postUiState = viewModel.postUiState,
         commentsUiState = viewModel.commentsUiState,
-        onCommentMoreIconClick = {},
-        onProfileClick = {userId -> navigator.navigate(ProfileDestination(userId))},
-        onAddCommentClick = {},
-        fetchData = {viewModel.fetchData(postId)},
+        onProfileNavigation = { userId -> navigator.navigate(ProfileDestination(userId))},
+        postId = postId,
+        onUiAction = viewModel::onUiAction
     )
 }
