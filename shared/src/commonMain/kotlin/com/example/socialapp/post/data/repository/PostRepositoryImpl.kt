@@ -1,4 +1,4 @@
-package com.example.socialapp.post.data
+package com.example.socialapp.post.data.repository
 
 import com.example.socialapp.common.data.local.UserPreferences
 import com.example.socialapp.common.data.local.UserSettings
@@ -9,7 +9,7 @@ import com.example.socialapp.common.domain.model.Post
 import com.example.socialapp.common.util.Constants
 import com.example.socialapp.common.util.DispatcherProvider
 import com.example.socialapp.common.util.Result
-import com.example.socialapp.post.domain.PostRepository
+import com.example.socialapp.post.domain.repository.PostRepository
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.withContext
 import okio.IOException
@@ -73,6 +73,34 @@ internal class PostRepositoryImpl (
         )
     }
 
+    override suspend fun getPost(postId: Long): Result<Post> {
+        return withContext(dispatcher.io) {
+            try {
+                val currentUserData = userPreferences.getUserData()
+                val apiResponse = postApiService.getPost(token = currentUserData.token, postId = postId, currentUserId = currentUserData.id)
+
+                when (apiResponse.code) {
+                    HttpStatusCode.OK -> {
+                        Result.Success(data = apiResponse.data.post!!.toDomainPost())
+                    }
+                    else -> {
+                        Result.Error(
+                            message = Constants.UNEXPECTED_ERROR
+                        )
+                    }
+                }
+            } catch (ioException: IOException) {
+                Result.Error(
+                    message = Constants.NO_INTERNET_ERROR
+                )
+            } catch (exception: Throwable) {
+                Result.Error(
+                    message = "${exception.cause}"
+                )
+            }
+        }
+    }
+
     // abstract the common methods of fetching posts
     private suspend fun fetchPosts(
         apiCall: suspend (UserSettings) -> PostsApiResponse // api call with current user data and return the respose
@@ -104,3 +132,4 @@ internal class PostRepositoryImpl (
         }
     }
 }
+
