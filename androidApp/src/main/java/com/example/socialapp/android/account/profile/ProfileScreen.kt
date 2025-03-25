@@ -81,7 +81,7 @@ fun ProfileScreen(
         }
     }
 
-    if (profilePostUiState.isLoading || userInfoUiState.isLoading) {
+    if ( userInfoUiState.isLoading) {
         Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -121,10 +121,13 @@ fun ProfileScreen(
                 )
             }
 
+            println("is loading ${profilePostUiState.isLoading}")
+
             if(profilePostUiState.isLoading) {
                 item(key = Constants.LOADING_MORE_ITEM_KEY) {
                     Box(
-                        modifier = modifier.fillMaxWidth()
+                        modifier = modifier
+                            .fillMaxWidth()
                             .padding(vertical = MediumSpacing, horizontal = LargeSpacing),
                         contentAlignment = Alignment.Center
                     ) {

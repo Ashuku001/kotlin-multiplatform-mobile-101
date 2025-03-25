@@ -12,7 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.socialapp.android.common.components.PostListItem
-import com.example.socialapp.android.common.components.PullToRefreshBox
 import com.example.socialapp.android.common.fakedata.samplePosts
 import com.example.socialapp.android.common.fakedata.sampleUsers
 import com.example.socialapp.android.common.theming.LargeSpacing
@@ -64,7 +63,8 @@ fun HomeScreen(
         }
     }
 
-    PullToRefreshBox(
+
+    PullToRefreshBox (
         modifier = Modifier,
         state = pullRefreshState,
         isRefreshing = homeRefreshState.isRefreshing,
@@ -95,7 +95,6 @@ fun HomeScreen(
             }
 
             // TODO check pagination it is duplicating
-            println("POSTS ${postFeedUiState.posts.map{it.postId}}")
 
             items(items = postFeedUiState.posts, key = { post ->  "${post.postId}_${Random.nextInt()}"  }) { post ->
                 PostListItem(

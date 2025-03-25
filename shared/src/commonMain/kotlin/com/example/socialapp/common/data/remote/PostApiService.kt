@@ -18,6 +18,7 @@ internal class PostApiService: KtorApi() {
         page: Int,
         pageSize: Int
     ): PostsApiResponse {
+        println("$page, $pageSize")
         val httpResponse = client.get{
             endpoint(path = "/posts/feed")
             parameter(key = Constants.CURRENT_USER_ID_PARAMETER, value = currentUserId)

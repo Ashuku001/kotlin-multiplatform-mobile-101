@@ -2,6 +2,7 @@ package com.example.socialapp.android.home.onboarding
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -79,8 +80,8 @@ fun OnBoardingSection(
 
         Text(
             text = "Trending Posts",
-            modifier = modifier.fillMaxWidth().padding(vertical = LargeSpacing)
-                .align(Alignment.CenterHorizontally),
+            modifier = modifier.fillMaxWidth().padding(vertical = LargeSpacing),
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
         )
 

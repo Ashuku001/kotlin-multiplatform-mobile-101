@@ -17,7 +17,7 @@ import com.example.socialapp.android.common.theming.MediumSpacing
 
 @Composable
 @ExperimentalMaterial3Api
-fun PullToRefreshBox(
+fun PullToRefrebsBox(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
