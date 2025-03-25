@@ -15,7 +15,7 @@ internal data class RemotePostComment(
     val userImageUrl: String?,
     val createdAt: String
 ) {
-    fun toDomainPostComment (): PostComment {
+    fun toDomainPostComment (isOwner: Boolean): PostComment {
         return PostComment(
             postId,
             content,
@@ -23,7 +23,8 @@ internal data class RemotePostComment(
             userId,
             userName,
             userImageUrl,
-            createdAt
+            createdAt,
+            isOwner = isOwner
         )
     }
 }

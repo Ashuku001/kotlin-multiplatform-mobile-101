@@ -28,6 +28,8 @@ internal class PostCommentApiService: KtorApi() {
             setToken(token=userToken)
         }
 
+        println("HTTP RESPONSE $httpResponse")
+
         return GetPostCommentsApiResponse(code = httpResponse.status, data = httpResponse.body())
     }
 

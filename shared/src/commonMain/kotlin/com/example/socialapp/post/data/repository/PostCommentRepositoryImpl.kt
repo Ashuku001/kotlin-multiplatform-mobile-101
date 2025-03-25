@@ -36,12 +36,13 @@ internal class PostCommentRepositoryImpl(
 
                 when(apiResponse.code) {
                     HttpStatusCode.OK ->
-                        Result.Success(data = apiResponse.data.comments.map { it.toDomainPostComment() })
+                        Result.Success(data = apiResponse.data.comments.map { it.toDomainPostComment(isOwner = it.userId == currentUserData.id) })
                     else -> Result.Error(message = apiResponse.data.message ?: Constants.UNEXPECTED_ERROR)
                 }
             } catch (ioException: IOException) {
                 Result.Error(message = Constants.NO_INTERNET_ERROR)
             } catch (exception: Throwable) {
+                println("EXCEPTION $exception", )
                 Result.Error(
                     message = Constants.UNEXPECTED_ERROR
                 )
@@ -65,7 +66,9 @@ internal class PostCommentRepositoryImpl(
                 )
                 when(apiResponse.code) {
                     HttpStatusCode.OK ->
-                        Result.Success(data = apiResponse.data.comment!!.toDomainPostComment())
+                        Result.Success(data = apiResponse.data.comment!!.toDomainPostComment(
+                            isOwner = apiResponse.data.comment.userId == currentUserData.id
+                        ))
                     else -> Result.Error(message = apiResponse.data.message ?: Constants.UNEXPECTED_ERROR)
                 }
             } catch (ioException: IOException) {
@@ -94,7 +97,9 @@ internal class PostCommentRepositoryImpl(
                 )
                 when(apiResponse.code) {
                     HttpStatusCode.OK ->
-                        Result.Success(data = apiResponse.data.comment!!.toDomainPostComment())
+                        Result.Success(data = apiResponse.data.comment!!.toDomainPostComment(
+                            isOwner = apiResponse.data.comment.userId == currentUserData.id
+                        ))
                     else -> Result.Error(message = apiResponse.data.message ?: Constants.UNEXPECTED_ERROR)
                 }
             } catch (ioException: IOException) {
