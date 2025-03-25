@@ -16,11 +16,18 @@ import com.example.socialapp.follows.data.FollowsRepositoryImpl
 import com.example.socialapp.follows.domain.FollowsRepository
 import com.example.socialapp.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.socialapp.follows.domain.usecase.GetFollowableUsersUseCase
-import com.example.socialapp.post.data.PostRepositoryImpl
-import com.example.socialapp.post.domain.PostRepository
+import com.example.socialapp.post.data.remote.PostCommentApiService
+import com.example.socialapp.post.data.repository.PostCommentRepositoryImpl
+import com.example.socialapp.post.data.repository.PostRepositoryImpl
+import com.example.socialapp.post.domain.repository.PostCommentRepository
+import com.example.socialapp.post.domain.repository.PostRepository
+import com.example.socialapp.post.domain.usecase.AddPostCommentUseCase
+import com.example.socialapp.post.domain.usecase.GetPostCommentsUseCase
+import com.example.socialapp.post.domain.usecase.GetPostUseCase
 import com.example.socialapp.post.domain.usecase.GetPostsUseCase
 import com.example.socialapp.post.domain.usecase.GetUserPostsUseCase
 import com.example.socialapp.post.domain.usecase.LikeOrUnlikePostUseCase
+import com.example.socialapp.post.domain.usecase.RemovePostCommentUseCase
 import org.koin.dsl.module
 
 private val authModule = module{
@@ -42,8 +49,9 @@ private val postModule = module {
     factory { GetPostsUseCase() }
     factory { LikeOrUnlikePostUseCase() }
     factory { GetUserPostsUseCase() }
+    factory {GetPostUseCase()}
 
-    single<PostRepository> {PostRepositoryImpl(get(), get(), get())}
+    single<PostRepository> { PostRepositoryImpl(get(), get(), get()) }
 }
 
 private val followsModule = module {
@@ -62,5 +70,14 @@ private val accountModule = module {
     single<ProfileRepository> {ProfileRepositoryImpl(get(), get(), get())}
 }
 
+private val postCommentModule  = module {
+    factory { PostCommentApiService()}
+    factory {GetPostCommentsUseCase()}
+    factory {AddPostCommentUseCase()}
+    factory {RemovePostCommentUseCase()}
+
+    single<PostCommentRepository> {PostCommentRepositoryImpl(get(), get(), get())}
+}
+
 // inject to koin
-fun getSharedModules() = listOf(platformModule, authModule, utilityModule, postModule, followsModule, accountModule)
+fun getSharedModules() = listOf(platformModule, authModule, utilityModule, postModule, followsModule, accountModule, postCommentModule)
