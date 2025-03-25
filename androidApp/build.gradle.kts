@@ -53,6 +53,7 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.compose.material3:material3:1.2.0-alpha10")
+    implementation("androidx.compose.material3:material3:1.3.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
     implementation("io.coil-kt:coil-compose:2.4.0") // load images
 }

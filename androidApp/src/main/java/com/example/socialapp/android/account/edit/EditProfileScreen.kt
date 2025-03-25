@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -213,12 +214,12 @@ fun BioTextFiled(
         modifier = modifier
             .fillMaxWidth()
             .height(90.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = if (isSystemInDarkTheme()) {
-                MaterialTheme.colorScheme.surface
-            } else {
-                Gray
-            },
+        colors = TextFieldDefaults.colors(
+//            contentColorFor = if (isSystemInDarkTheme()) {
+//                MaterialTheme.colorScheme.surface
+//            } else {
+//                Gray
+//            },
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),

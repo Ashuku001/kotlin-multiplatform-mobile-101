@@ -54,7 +54,6 @@ internal class PostRepositoryImpl (
             } catch (ioException: IOException){
                 Result.Error(message = Constants.NO_INTERNET_ERROR)
             } catch (anyError: Throwable) {
-                println("exception $anyError")
                 Result.Error(message = "${anyError.message}")
             }
         }

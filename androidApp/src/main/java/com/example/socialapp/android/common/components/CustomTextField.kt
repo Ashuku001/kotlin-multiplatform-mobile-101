@@ -51,12 +51,12 @@ fun CustomTextField(
             keyboardType = keyboardType
         ),
         singleLine = isSingleLine,
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = if (isSystemInDarkTheme()) {
-                MaterialTheme.colorScheme.surface
-            } else {
-                Gray
-            },
+        colors = TextFieldDefaults.colors(
+//            containerColor = if (isSystemInDarkTheme()) {
+//                MaterialTheme.colorScheme.surface
+//            } else {
+//                Gray
+//            },
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),

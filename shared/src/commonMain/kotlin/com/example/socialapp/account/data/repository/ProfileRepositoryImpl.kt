@@ -23,10 +23,7 @@ internal class ProfileRepositoryImpl(
     override fun getProfile(profileId: Long): Flow<Result<Profile>> {
         // a flow builder
         return flow {
-            println("PROFIEL ID $profileId")
             val userData = preferences.getUserData()
-
-            println("USER DATA $userData")
 
             // user accessing their own profile s
             if(profileId == userData.id) {
@@ -38,8 +35,6 @@ internal class ProfileRepositoryImpl(
                 profileId = profileId,
                 currentUserId = userData.id
             )
-
-            println("API RESPOSE $apiResponse")
 
             when (apiResponse.code) {
                 HttpStatusCode.OK -> {

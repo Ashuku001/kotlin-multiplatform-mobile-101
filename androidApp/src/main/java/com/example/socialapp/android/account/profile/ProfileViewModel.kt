@@ -101,7 +101,6 @@ class ProfileViewModel(
             return // Avoid calling loadItems() on an uninitialized pagingManager
         }
 
-        if(_profilePostUiState.value.endReached) return
         viewModelScope.launch {
             pagingManager.loadItems()
         }
@@ -111,6 +110,10 @@ class ProfileViewModel(
     private suspend fun fetchProfilePosts(profileId: Long) {
         if (_profilePostUiState.value.isLoading || _profilePostUiState.value.posts.isNotEmpty()) return // is initializing or already initialized
 
+        _profilePostUiState.value = _profilePostUiState.value.copy(
+            isLoading = true
+        )
+
         if(!::pagingManager.isInitialized) { // paging manager was not initialized
             pagingManager = createPagingManager(profileId = profileId)
         }
@@ -118,6 +121,7 @@ class ProfileViewModel(
     }
 
     private fun createPagingManager(profileId: Long): PagingManager<Post> {
+        println("fetching more posts $profileId")
         return DefaultPagingManager(
             onRequest = {page ->
                 getUserPostsUseCase(userId = profileId, pageSize = Constants.DEFAULT_REQUEST_PAGE_SIZE, page = page)
@@ -156,20 +160,15 @@ class ProfileViewModel(
                 likesCount = post.likesCount.plus(count)
             )
 
-            println("UPDATED POST $updatedPost")
-
-            updatePost(post)
+            updatePost(updatedPost)
 
             val result = likeOrUnlikePostUseCase(post = post)
-            println("RESULT $result")
 
             when(result){
                 is Result.Error -> {
-                    println("in error")
                     updatePost(post)
                 }
                 is Result.Success -> {
-                    println("in success $updatedPost")
                     EventBus.send(Event.PostUpdated(updatedPost))
                 }
             }
@@ -177,7 +176,6 @@ class ProfileViewModel(
     }
 
     private fun updatePost(post: Post) {
-        println("post in here $post")
         _profilePostUiState.value = _profilePostUiState.value.copy(
             posts = _profilePostUiState.value.posts.map {
                 if (it.postId == post.postId) post else it
