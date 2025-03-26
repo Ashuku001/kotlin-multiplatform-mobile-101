@@ -34,8 +34,8 @@ data class UpdateUserParams(
 @Serializable
 internal data class ProfileApiResponseData(
     val success: Boolean,
-    val profile: RemoteProfile,
-    val message: String?
+    val profile: RemoteProfile? = null,
+    val message: String? = null
 )
 
 @Serializable

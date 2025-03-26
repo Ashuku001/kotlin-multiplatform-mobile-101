@@ -17,6 +17,7 @@ import com.example.socialapp.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.socialapp.post.domain.usecase.GetUserPostsUseCase
 import com.example.socialapp.post.domain.usecase.LikeOrUnlikePostUseCase
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,16 @@ class ProfileViewModel(
 
     // lateinitialization
     private lateinit var pagingManager: PagingManager<Post>
+
+    init {
+        EventBus.events
+            .onEach {
+                when (it) {
+                    is Event.ProfileUpdated -> updateProfile(it.profile)
+                    is Event.PostUpdated -> updatePost(it.post)
+                }
+            }.launchIn(viewModelScope)
+    }
 
     private fun fetchProfile(userId: Long) {
         // Launch a new coroutine
@@ -110,10 +121,6 @@ class ProfileViewModel(
     private suspend fun fetchProfilePosts(profileId: Long) {
         if (_profilePostUiState.value.isLoading || _profilePostUiState.value.posts.isNotEmpty()) return // is initializing or already initialized
 
-        _profilePostUiState.value = _profilePostUiState.value.copy(
-            isLoading = true
-        )
-
         if(!::pagingManager.isInitialized) { // paging manager was not initialized
             pagingManager = createPagingManager(profileId = profileId)
         }
@@ -180,6 +187,25 @@ class ProfileViewModel(
             posts = _profilePostUiState.value.posts.map {
                 if (it.postId == post.postId) post else it
             }
+        )
+    }
+
+    private fun updateProfile(profile: Profile) {
+        _userUiInfoState.value = _userUiInfoState.value.copy(
+            profile = profile
+        )
+
+        _profilePostUiState.value = _profilePostUiState.value.copy(
+            posts = _profilePostUiState.value.posts.map {
+                    if(it.userId == profile.id) {
+                        it.copy(
+                            userName = profile.name,
+                            userImageUrl = profile.imageUrl
+                        )
+                    } else {
+                        it
+                    }
+                }
         )
     }
 
