@@ -36,6 +36,11 @@ internal data class RemotePost(
     }
 }
 
+@Serializable
+internal data class NewPostParams(
+    val userId: Long,
+    val caption: String,
+)
 
 @Serializable
 internal data class PostsApiResponseData(
@@ -43,6 +48,8 @@ internal data class PostsApiResponseData(
     val posts: List<RemotePost> = listOf(),
     val message: String? = null,
 )
+
+
 
 internal data class PostsApiResponse(
     val code: HttpStatusCode,
