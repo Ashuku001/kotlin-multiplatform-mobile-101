@@ -10,6 +10,7 @@ import com.example.socialapp.follows.domain.FollowsRepository
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.withContext
 import com.example.socialapp.common.util.Result
+import com.example.socialapp.common.util.safeApiCall
 import okio.IOException
 
 internal class FollowsRepositoryImpl (
@@ -81,6 +82,34 @@ internal class FollowsRepositoryImpl (
                 Result.Error(message = Constants.NO_INTERNET_ERROR)
             } catch (exception: Throwable) {
                 Result.Error(message = "${exception.message}")
+            }
+        }
+    }
+
+    override suspend fun getFollows(
+        userId: Long,
+        page: Int,
+        pageSize: Int,
+        followType: Int
+    ): Result<List<FollowsUser>> {
+        // TODO ("update the code to use this wrapper for safe switching to bg thread")
+        return safeApiCall (dispatcher){
+            withContext(dispatcher.io){
+                val currentUserData = userPreferences.getUserData()
+                val apiResponse = followsApiService.getFollows(
+                    userToken = currentUserData.token,
+                    userId = userId,
+                    page = page,
+                    pageSize = pageSize,
+                    followsEndPoint = if (followType == 1) "followers" else "following"
+                )
+
+
+                if (apiResponse.code == HttpStatusCode.OK){
+                    Result.Success(data = apiResponse.data.follows.map { it.toDomainFollowUser() })
+                }else{
+                    Result.Error(message = "${apiResponse.data.message}")
+                }
             }
         }
     }

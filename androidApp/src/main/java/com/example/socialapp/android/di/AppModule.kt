@@ -20,5 +20,5 @@ val appModule = module {
     viewModel {PostDetailScreenViewModel(get(), get(), get(), get(), get())}
     viewModel {ProfileViewModel(get(), get(), get(), get())}
     viewModel {EditProfileViewModel()}
-    viewModel {FollowsViewModel()}
+    viewModel {FollowsViewModel(get())}
 }

@@ -16,6 +16,7 @@ import com.example.socialapp.follows.data.FollowsRepositoryImpl
 import com.example.socialapp.follows.domain.FollowsRepository
 import com.example.socialapp.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.socialapp.follows.domain.usecase.GetFollowableUsersUseCase
+import com.example.socialapp.follows.domain.usecase.GetFollowsUseCase
 import com.example.socialapp.post.data.remote.PostCommentApiService
 import com.example.socialapp.post.data.repository.PostCommentRepositoryImpl
 import com.example.socialapp.post.data.repository.PostRepositoryImpl
@@ -36,7 +37,7 @@ private val authModule = module{
     factory {SignUpUseCase()}
     factory {SignInUseCase()}
 
-    single<AuthRepository> {AuthRepositoryImpl(get(), get(), get())} // a single instance of auth repo
+    single<AuthRepository> {AuthRepositoryImpl(get(), get(), get())} // a single instance of for the lifetime
 
 }
 
@@ -58,6 +59,7 @@ private val followsModule = module {
     factory {FollowsApiService()}
     factory {GetFollowableUsersUseCase()}
     factory {FollowOrUnfollowUseCase()}
+    factory { GetFollowsUseCase() }
 
     single<FollowsRepository>  {FollowsRepositoryImpl(get(), get(), get())}
 }
