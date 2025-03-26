@@ -10,7 +10,6 @@ import com.example.socialapp.common.data.local.UserPreferences
 import com.example.socialapp.common.util.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import com.example.socialapp.common.util.Result
 import com.example.socialapp.common.util.safeApiCall
 import io.ktor.http.HttpStatusCode
@@ -41,7 +40,7 @@ internal class ProfileRepositoryImpl(
 
             when (apiResponse.code) {
                 HttpStatusCode.OK -> {
-                    val profile = apiResponse.data.profile.toDomainProfile()
+                    val profile = apiResponse.data.profile!!.toDomainProfile()
 
                     // update user shared preference if the profile is the current users profile
                     if (profileId == userData.id) {
@@ -62,6 +61,7 @@ internal class ProfileRepositoryImpl(
     override suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Result<Profile> {
         return safeApiCall(dispatcher) {
             val currentUserData = preferences.getUserData()
+
 
             val profileData = Json.encodeToString(
                 serializer = UpdateUserParams.serializer(),
@@ -91,7 +91,7 @@ internal class ProfileRepositoryImpl(
                         )
 
                         updatedProfileApiResponse.data.profile.let {
-                            imageUrl = it.imageUrl
+                            imageUrl = it?.imageUrl
                         }
                     }
 

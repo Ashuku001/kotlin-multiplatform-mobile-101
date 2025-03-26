@@ -7,4 +7,5 @@ object Constants {
     const val DEFAULT_COMMENTS_PAGE_SIZE=2
     const val LOADING_MORE_ITEM_KEY="loading_more_item"
     const val EVENT_BUS_BUFFER_CAPACITY = 5
+    const val READING_IMAGE_FAILURE_MESSAGE = "Failed to read image"
 }

@@ -1,5 +1,6 @@
 package com.example.socialapp.android.common.util
 
+import com.example.socialapp.account.domain.model.Profile
 import com.example.socialapp.common.domain.model.Post
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,4 +16,5 @@ object EventBus {
 
 sealed interface Event{
     data class PostUpdated(val post: Post):Event
+    data class ProfileUpdated(val profile: Profile): Event
 }

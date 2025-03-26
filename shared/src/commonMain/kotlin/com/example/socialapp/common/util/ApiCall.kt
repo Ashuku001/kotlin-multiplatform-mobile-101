@@ -25,6 +25,7 @@ private fun <T> defaultErrorHandler(error: Throwable): Result<T>{
     return if (error is IOException){
         Result.Error(message = Constants.NO_INTERNET_ERROR)
     }else{
+        println("THE ERROR MESSAGE ${error.message}")
         Result.Error(message = error.message ?: Constants.UNEXPECTED_ERROR)
     }
 }
