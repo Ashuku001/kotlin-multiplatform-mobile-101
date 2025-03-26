@@ -35,10 +35,14 @@ internal abstract class KtorApi {
         }
     }
 
-    // an extention to add tokens to the request headers
+    // an extension to add tokens to the request headers
     fun HttpRequestBuilder.setToken(token: String) {
         headers{
             append(name = "Authorization", value = "Bearer $token")
         }
+    }
+
+    fun HttpRequestBuilder.setupMultipartRequest() {
+        contentType(ContentType.MultiPart.FormData)
     }
 }

@@ -24,6 +24,14 @@ internal data class RemoteProfile (
 }
 
 @Serializable
+data class UpdateUserParams(
+    val userId: Long,
+    val name: String,
+    val bio: String,
+    val imageUrl: String? = null
+)
+
+@Serializable
 internal data class ProfileApiResponseData(
     val success: Boolean,
     val profile: RemoteProfile,
