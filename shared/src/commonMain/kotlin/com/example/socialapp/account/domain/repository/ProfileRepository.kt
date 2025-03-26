@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 internal interface ProfileRepository {
     // Flow allow async fetch and handle reactively
     fun getProfile(profileId: Long): Flow<Result<Profile>>
+
+    suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Result<Profile>
 }
