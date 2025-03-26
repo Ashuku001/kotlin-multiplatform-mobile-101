@@ -23,6 +23,7 @@ import com.example.socialapp.post.data.repository.PostCommentRepositoryImpl
 import com.example.socialapp.post.data.repository.PostRepositoryImpl
 import com.example.socialapp.post.domain.repository.PostCommentRepository
 import com.example.socialapp.post.domain.repository.PostRepository
+import com.example.socialapp.post.domain.usecase.AddNewPostUseCase
 import com.example.socialapp.post.domain.usecase.AddPostCommentUseCase
 import com.example.socialapp.post.domain.usecase.GetPostCommentsUseCase
 import com.example.socialapp.post.domain.usecase.GetPostUseCase
@@ -47,38 +48,39 @@ private val utilityModule = module {
 }
 
 private val postModule = module {
-    factory {PostApiService()}
+    factory { PostApiService() }
     factory { GetPostsUseCase() }
     factory { LikeOrUnlikePostUseCase() }
     factory { GetUserPostsUseCase() }
-    factory {GetPostUseCase()}
+    factory { GetPostUseCase() }
+    factory { AddNewPostUseCase() }
 
     single<PostRepository> { PostRepositoryImpl(get(), get(), get()) }
 }
 
 private val followsModule = module {
-    factory {FollowsApiService()}
-    factory {GetFollowableUsersUseCase()}
-    factory {FollowOrUnfollowUseCase()}
+    factory { FollowsApiService() }
+    factory { GetFollowableUsersUseCase() }
+    factory { FollowOrUnfollowUseCase() }
     factory { GetFollowsUseCase() }
 
     single<FollowsRepository>  {FollowsRepositoryImpl(get(), get(), get())}
 }
 
 private val accountModule = module {
-    factory {AccountApiService()}
-    factory {GetPostsUseCase()}
-    factory {GetProfileUseCase()}
-    factory {UpdateProfileUseCase()}
+    factory { AccountApiService() }
+    factory { GetPostsUseCase() }
+    factory { GetProfileUseCase() }
+    factory { UpdateProfileUseCase() }
 
     single<ProfileRepository> {ProfileRepositoryImpl(get(), get(), get())}
 }
 
 private val postCommentModule  = module {
-    factory { PostCommentApiService()}
-    factory {GetPostCommentsUseCase()}
-    factory {AddPostCommentUseCase()}
-    factory {RemovePostCommentUseCase()}
+    factory { PostCommentApiService() }
+    factory { GetPostCommentsUseCase() }
+    factory { AddPostCommentUseCase() }
+    factory { RemovePostCommentUseCase() }
 
     single<PostCommentRepository> {PostCommentRepositoryImpl(get(), get(), get())}
 }

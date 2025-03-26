@@ -1,5 +1,6 @@
 package com.example.socialapp.common.data.remote
 
+import com.example.socialapp.account.data.model.ProfileApiResponse
 import com.example.socialapp.common.data.model.LikeApiResponse
 import com.example.socialapp.common.data.model.LikeParams
 import com.example.socialapp.common.data.model.PostApiResponse
@@ -7,10 +8,15 @@ import com.example.socialapp.common.data.model.PostsApiResponse
 import com.example.socialapp.common.util.Constants
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 
 internal class PostApiService: KtorApi() {
     suspend fun getFeedPosts(
@@ -89,4 +95,32 @@ internal class PostApiService: KtorApi() {
         return PostApiResponse(code = httpResponse.status, data = httpResponse.body())
     }
 
+    suspend fun createPost(
+        token: String,
+        postData: String,
+        imageBytes: ByteArray
+    ): PostApiResponse {
+        val httpResponse = client.submitFormWithBinaryData(
+            formData = formData {
+                append(key = "post_data", value = postData)
+                imageBytes.let {
+                    append(
+                        key = "post_image",
+                        value = it,
+                        headers = Headers.build {
+                            append(HttpHeaders.ContentType, value = "image/*")
+                            append(HttpHeaders.ContentDisposition, value = "filename=post.jpg")
+                        }
+                    )
+                }
+            }
+        ) {
+            endpoint("/post/create")
+            setToken(token = token)
+            setupMultipartRequest()
+            method = HttpMethod.Post
+        }
+
+        return PostApiResponse(code = httpResponse.status, data = httpResponse.body())
+    }
 }
