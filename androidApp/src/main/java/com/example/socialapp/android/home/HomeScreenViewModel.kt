@@ -49,6 +49,7 @@ class HomeScreenViewModel (
             when (it) {
                 is Event.PostUpdated -> updatePost(it.post)
                 is Event.ProfileUpdated -> updateCurrentUserProfile(it.profile)
+                is Event.PostCreated -> insertNewPost(it.post)
             }
         }.launchIn(viewModelScope)
     }
@@ -221,6 +222,12 @@ class HomeScreenViewModel (
                 }
 
             }
+        )
+    }
+
+    private fun insertNewPost(post: Post) {
+        _postFeedUiState.value = _postFeedUiState.value.copy(
+            posts = listOf(post) + _postFeedUiState.value.posts
         )
     }
 

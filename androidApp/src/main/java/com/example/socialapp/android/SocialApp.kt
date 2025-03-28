@@ -1,8 +1,15 @@
 package com.example.socialapp.android
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -20,6 +27,7 @@ import com.example.socialapp.android.destinations.loginDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.utils.currentDestinationAsState
 
 // Root application to setup navigation
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +61,26 @@ fun SocialApp(
                     {}
                 }
             )
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = navHostController.currentDestinationAsState().value == HomeDestination
+            ) {
+                FloatingActionButton(
+                    onClick = {
+                        navHostController.navigate(
+                            route = "create_post"
+                        )
+                    },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
         }
     ){ innerPaddings ->
         DestinationsNavHost(
