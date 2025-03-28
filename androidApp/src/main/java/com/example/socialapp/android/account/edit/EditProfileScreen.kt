@@ -101,7 +101,8 @@ fun EditProfileScreen (
                     CircleImage(
                         modifier = modifier.size(120.dp),
                         imageUrl = editProfileUiState.profile.imageUrl,
-                        onClick = {}
+                        onClick = {},
+                        uri = selectedImage
                     )
                     IconButton(
                         onClick = {

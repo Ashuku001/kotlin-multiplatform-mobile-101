@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.socialapp.account.domain.model.Profile
 import com.example.socialapp.android.common.util.Constants
 import com.example.socialapp.android.common.util.DefaultPagingManager
 import com.example.socialapp.android.common.util.Event
@@ -47,6 +48,7 @@ class HomeScreenViewModel (
         EventBus.events.onEach {
             when (it) {
                 is Event.PostUpdated -> updatePost(it.post)
+                is Event.ProfileUpdated -> updateCurrentUserProfile(it.profile)
             }
         }.launchIn(viewModelScope)
     }
@@ -212,7 +214,27 @@ class HomeScreenViewModel (
     private fun updatePost(post: Post) {
         _postFeedUiState.value = _postFeedUiState.value.copy(
             posts = _postFeedUiState.value.posts.map {
-                if(it.postId == post.postId) post else it
+                if(it.postId == post.postId){
+                    post
+                } else {
+                    it
+                }
+
+            }
+        )
+    }
+
+    private fun updateCurrentUserProfile(profile: Profile) {
+        _postFeedUiState.value = _postFeedUiState.value.copy(
+            posts = _postFeedUiState.value.posts.map {
+                if(it.userId == profile.id){
+                    it.copy(
+                        userName = profile.name,
+                        userImageUrl = profile.imageUrl
+                    )
+                } else {
+                    it
+                }
 
             }
         )

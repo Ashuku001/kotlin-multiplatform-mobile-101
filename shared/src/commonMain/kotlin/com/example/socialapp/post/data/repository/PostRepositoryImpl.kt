@@ -14,8 +14,6 @@ import com.example.socialapp.common.util.safeApiCall
 import com.example.socialapp.post.domain.repository.PostRepository
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.serializer
 import okio.IOException
 import kotlinx.serialization.json.Json
 
@@ -107,8 +105,7 @@ internal class PostRepositoryImpl (
         }
     }
 
-    override suspend fun addPost(
-        userId: Long,
+    override suspend fun createPost(
         imageBytes: ByteArray,
         caption: String
     ): Result<Post> {
@@ -118,7 +115,7 @@ internal class PostRepositoryImpl (
             val postData = Json.encodeToString(
                 serializer = NewPostParams.serializer(),
                 value = NewPostParams(
-                    userId = userId,
+                    userId = currentUserData.id,
                     caption = caption
                 )
             )
@@ -131,6 +128,7 @@ internal class PostRepositoryImpl (
 
             when(apiResponse.code) {
                 HttpStatusCode.OK -> {
+                    // this will crush configure the backend to return the created post
                     Result.Success(data = apiResponse.data.post!!.toDomainPost())
                 }
                 else -> {
