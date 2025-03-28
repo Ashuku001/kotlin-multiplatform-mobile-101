@@ -44,6 +44,7 @@ class PostDetailScreenViewModel(
             when(it) {
                 is Event.PostUpdated -> updatePost(it.post)
                 is Event.ProfileUpdated -> updateCurrentUserProfileData(it.profile)
+                is Event.PostCreated -> Unit
             }
         }.launchIn(viewModelScope)
     }

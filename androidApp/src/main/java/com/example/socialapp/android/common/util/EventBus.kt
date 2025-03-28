@@ -15,6 +15,7 @@ object EventBus {
 }
 
 sealed interface Event{
-    data class PostUpdated(val post: Post):Event
+    data class PostUpdated(val post: Post): Event
     data class ProfileUpdated(val profile: Profile): Event
+    data class PostCreated(val post: Post): Event
 }

@@ -9,6 +9,7 @@ import com.example.socialapp.android.auth.signup.SignupViewModel
 import com.example.socialapp.android.common.util.ImageBytesReader
 import com.example.socialapp.android.home.HomeScreenViewModel
 import com.example.socialapp.android.post.PostDetailScreenViewModel
+import com.example.socialapp.android.post.create.CreatePostViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -23,6 +24,7 @@ val appModule = module {
     viewModel {ProfileViewModel(get(), get(), get(), get())}
     viewModel {EditProfileViewModel(get(), get(), get())}
     viewModel {FollowsViewModel(get())}
-    
+    viewModel {CreatePostViewModel(get(), get())}
+
     single {ImageBytesReader(androidContext())}
 }

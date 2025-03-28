@@ -7,7 +7,7 @@ import com.example.socialapp.post.domain.repository.PostRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class AddNewPostUseCase: KoinComponent {
+class CreatePostUseCase: KoinComponent {
     val repository by inject<PostRepository>()
 
     suspend operator fun invoke(
