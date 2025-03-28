@@ -10,4 +10,5 @@ object Constants {
     const val UNEXPECTED_ERROR = "An unexpected error has occurred please try again."
     const val INVALID_INPUT_NAME_MESSAGE="Name should not be blank"
     const val INVALID_INPUT_BIO_MESSAGE="Bio should not be blank"
+    const val INVALID_INPUT_POST_CAPTION_MESSAGE="invalid length of post caption. Cannot be empty or exit 200 characters"
 }

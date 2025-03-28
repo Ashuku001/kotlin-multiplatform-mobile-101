@@ -76,7 +76,7 @@ class EditProfileViewModel(
                     )
                 }
                 is Result.Success -> {
-                    EventBus.send(Event.ProfileUpdated(result.data))
+                    EventBus.send(Event.ProfileUpdated(result.data!!))
                     _editProfileUiState.value = _editProfileUiState.value.copy(
                         isLoading = false,
                         uploadSucceed = true,

@@ -19,7 +19,7 @@ internal abstract class KtorApi {
         install(ContentNegotiation) {
             json(
                 Json{
-                    ignoreUnknownKeys = true
+                    ignoreUnknownKeys = false
                     useAlternativeNames = false
                 }
             )

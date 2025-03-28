@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.socialapp.android.common.components.AppBar
 import com.example.socialapp.android.destinations.HomeDestination
+import com.example.socialapp.android.destinations.ProfileDestination
 import com.example.socialapp.android.destinations.loginDestination
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.navigate
 
 // Root application to setup navigation
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +44,15 @@ fun SocialApp(
     Scaffold (
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            AppBar(navHostController = navHostController)
+            AppBar(
+                navHostController = navHostController,
+                uiState = uiState,
+                onProfileNavigation =if (uiState is MainActivityUiState.Success) {
+                    { navHostController.navigate(ProfileDestination(uiState.currentUser.id)) }
+                } else {
+                    {}
+                }
+            )
         }
     ){ innerPaddings ->
         DestinationsNavHost(

@@ -12,5 +12,5 @@ interface PostRepository {
 
     suspend fun getPost(postId: Long): Result<Post>
 
-    suspend fun addPost(userId: Long, imageBytes: ByteArray, caption: String): Result<Post>
+    suspend fun createPost(imageBytes: ByteArray, caption: String): Result<Post>
 }

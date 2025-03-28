@@ -1,19 +1,23 @@
 package com.example.socialapp.android.common.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import com.example.socialapp.android.R
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.currentCompositionErrors
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.socialapp.android.MainActivityUiState
 import com.example.socialapp.android.common.theming.SmallElevation
 import com.example.socialapp.android.destinations.EditProfileDestination
 import com.example.socialapp.android.destinations.FollowersDestination
@@ -30,6 +34,8 @@ import com.ramcosta.composedestinations.utils.currentDestinationAsState
 fun AppBar(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
+    uiState: MainActivityUiState,
+    onProfileNavigation: () -> Unit
 ) {
     val  currentDestination = navHostController.currentDestinationAsState().value
     Surface(
@@ -43,12 +49,14 @@ fun AppBar(
                 )
             },
             modifier = modifier,
-//            colors = MaterialTheme.colorScheme.surface,
             actions = {
                 AnimatedVisibility(visible =  currentDestination?.route == HomeDestination.route) {
                     Icon (
                         painter = painterResource(id = R.drawable.person_circle_icon),
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = modifier.clickable {
+                           onProfileNavigation()
+                        }
                     )
                 }
             },

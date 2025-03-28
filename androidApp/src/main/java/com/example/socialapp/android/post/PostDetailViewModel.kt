@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.socialapp.account.domain.model.Profile
 import com.example.socialapp.android.common.util.Constants
 import com.example.socialapp.android.common.util.DefaultPagingManager
 import com.example.socialapp.android.common.util.Event
@@ -42,6 +43,7 @@ class PostDetailScreenViewModel(
         EventBus.events.onEach {
             when(it) {
                 is Event.PostUpdated -> updatePost(it.post)
+                is Event.ProfileUpdated -> updateCurrentUserProfileData(it.profile)
             }
         }.launchIn(viewModelScope)
     }
@@ -149,6 +151,31 @@ class PostDetailScreenViewModel(
             post = post
         )
 
+    }
+
+    private fun updateCurrentUserProfileData(profile: Profile) {
+        val post = _postUiState.value.post ?: return
+
+        if (post.isOwnPost) {
+            val updatedPost = post.copy(
+                userName = profile.name,
+                userImageUrl = profile.imageUrl
+            )
+            updatePost(updatedPost)
+        }
+
+        _commentsUiState.value = _commentsUiState.value.copy(
+            comments = _commentsUiState.value.comments.map {
+                if(it.userId == profile.id) {
+                    it.copy(
+                        userName = profile.name,
+                        userImageUrl = profile.imageUrl
+                    )
+                } else {
+                    it
+                }
+            }
+        )
     }
 
     private fun addNewComment(comment: String) {

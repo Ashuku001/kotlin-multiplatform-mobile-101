@@ -101,20 +101,20 @@ internal class PostApiService: KtorApi() {
         imageBytes: ByteArray
     ): PostApiResponse {
         val httpResponse = client.submitFormWithBinaryData(
+            // post to include an image
             formData = formData {
                 append(key = "post_data", value = postData)
-                imageBytes.let {
-                    append(
-                        key = "post_image",
-                        value = it,
-                        headers = Headers.build {
-                            append(HttpHeaders.ContentType, value = "image/*")
-                            append(HttpHeaders.ContentDisposition, value = "filename=post.jpg")
-                        }
-                    )
-                }
+                append(
+                    key = "post_image",
+                    value = imageBytes,
+                    headers = Headers.build {
+                        append(HttpHeaders.ContentType, value = "image/*")
+                        append(HttpHeaders.ContentDisposition, value = "filename=post.jpg")
+                    }
+                )
             }
         ) {
+            // configure http endpoint
             endpoint("/post/create")
             setToken(token = token)
             setupMultipartRequest()
