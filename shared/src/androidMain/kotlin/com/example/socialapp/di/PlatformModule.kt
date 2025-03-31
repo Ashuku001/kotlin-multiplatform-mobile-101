@@ -9,7 +9,7 @@ import com.example.socialapp.common.data.local.UserPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-
+// native component to Android to save UserSettings (includes authentication toke)
 actual val platformModule = module {
     single<UserPreferences> { AndroidUserPreferences(get()) }
 

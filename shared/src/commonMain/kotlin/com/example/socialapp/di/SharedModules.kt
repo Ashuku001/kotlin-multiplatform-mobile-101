@@ -43,6 +43,7 @@ private val authModule = module{
 
 }
 
+// Koin will use provideDispatcher(), KMM injects the correct implementation for each platform
 private val utilityModule = module {
     factory { provideDispatcher() }
 }
@@ -85,5 +86,5 @@ private val postCommentModule  = module {
     single<PostCommentRepository> {PostCommentRepositoryImpl(get(), get(), get())}
 }
 
-// inject to koin
+// inject to koin module includes the native component modules platformModule
 fun getSharedModules() = listOf(platformModule, authModule, utilityModule, postModule, followsModule, accountModule, postCommentModule)

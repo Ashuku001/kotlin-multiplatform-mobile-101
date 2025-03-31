@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.socialapp.android.common.util.Event
 import com.example.socialapp.android.common.util.EventBus
 import com.example.socialapp.android.common.util.ImageBytesReader
