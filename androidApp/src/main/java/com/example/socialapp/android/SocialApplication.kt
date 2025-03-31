@@ -11,9 +11,11 @@ class SocialApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // load the modules
         startKoin{
-            // add shared module to coin has dao
-            modules(appModule + getSharedModules()) // initialize dependency injection make viewModels available
+            // add shared module to coin data layer
+            modules(appModule + getSharedModules()) // inject the viewModels and data layers available
             androidContext(this@SocialApplication) // set the app context instance to reach koin app configuration
         }
     }

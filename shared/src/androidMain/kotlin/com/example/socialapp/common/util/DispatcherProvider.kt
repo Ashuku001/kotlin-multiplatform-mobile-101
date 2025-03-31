@@ -11,5 +11,5 @@ internal class AndroidDispatcher: DispatcherProvider {
         get() = Dispatchers.IO
 }
 
-// actual implementation of fn in  Common DispatcherProvider
+// THe android dispatcher
 internal actual fun provideDispatcher(): DispatcherProvider = AndroidDispatcher()

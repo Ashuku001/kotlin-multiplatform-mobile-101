@@ -12,7 +12,7 @@ import org.koin.androidx.compose.koinViewModel
 fun Home (
     navigator: DestinationsNavigator
 ) {
-    val viewModel: HomeScreenViewModel = koinViewModel()
+    val viewModel: HomeScreenViewModel = koinViewModel() // inject view model in compose
 
     HomeScreen(
         onBoardingUiState = viewModel.onBoardingUiState,

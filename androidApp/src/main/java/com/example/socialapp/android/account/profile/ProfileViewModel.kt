@@ -51,7 +51,7 @@ class ProfileViewModel(
     private fun fetchProfile(userId: Long) {
         // Launch a new coroutine
         viewModelScope.launch {
-            getProfileUseCase(profileId = userId) // returns a flow emitting loaidng, success or error states
+            getProfileUseCase(profileId = userId) // returns a flow emitting loading, success or error states
                 .onEach { // for each emitted value
                     when(it){
                         is Result.Error -> {
